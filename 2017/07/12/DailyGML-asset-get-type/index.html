@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="Syntax: asset_get_index(name);    Argument Description     name The name of the game asset to get the index of (a string).    Returns:Real DescriptionYou can use this function to get the unique identi">
+<meta name="description" content="asset_get_type DescriptionWith this function you can get the type of asset being referenced from its name (a string). One of the constants listed below will be returned. Syntax:asset_get_type(name);">
 <meta property="og:type" content="article">
-<meta property="og:title" content="每天一个GML函数（1）- asset_get_index">
-<meta property="og:url" content="http://firzencode.coding.me/2017/07/07/DailyGML-asset-get-index/index.html">
+<meta property="og:title" content="每天一个GML函数（2）- asset_get_type">
+<meta property="og:url" content="http://firzencode.coding.me/2017/07/12/DailyGML-asset-get-type/index.html">
 <meta property="og:site_name" content="firzencode.">
-<meta property="og:description" content="Syntax: asset_get_index(name);    Argument Description     name The name of the game asset to get the index of (a string).    Returns:Real DescriptionYou can use this function to get the unique identi">
-<meta property="og:updated_time" content="2017-07-12T04:12:13.000Z">
+<meta property="og:description" content="asset_get_type DescriptionWith this function you can get the type of asset being referenced from its name (a string). One of the constants listed below will be returned. Syntax:asset_get_type(name);">
+<meta property="og:updated_time" content="2017-07-12T04:13:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="每天一个GML函数（1）- asset_get_index">
-<meta name="twitter:description" content="Syntax: asset_get_index(name);    Argument Description     name The name of the game asset to get the index of (a string).    Returns:Real DescriptionYou can use this function to get the unique identi">
+<meta name="twitter:title" content="每天一个GML函数（2）- asset_get_type">
+<meta name="twitter:description" content="asset_get_type DescriptionWith this function you can get the type of asset being referenced from its name (a string). One of the constants listed below will be returned. Syntax:asset_get_type(name);">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://firzencode.coding.me/2017/07/07/DailyGML-asset-get-index/"/>
+  <link rel="canonical" href="http://firzencode.coding.me/2017/07/12/DailyGML-asset-get-type/"/>
 
 
 
 
 
-  <title> 每天一个GML函数（1）- asset_get_index | firzencode. </title>
+  <title> 每天一个GML函数（2）- asset_get_type | firzencode. </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -249,7 +249,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/07/DailyGML-asset-get-index/">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/12/DailyGML-asset-get-type/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="firzencode">
@@ -270,7 +270,7 @@
             
             
               
-                每天一个GML函数（1）- asset_get_index
+                每天一个GML函数（2）- asset_get_type
               
             
           </h1>
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T09:32:44+08:00">
-                2017-07-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T12:06:47+08:00">
+                2017-07-12
               </time>
             
 
@@ -343,7 +343,9 @@
       
 
       
-        <p>Syntax: asset_get_index(name);<br></p>
+        <p>asset_get_type</p>
+<p>Description<br><br>With this function you can get the type of asset being referenced from its name (a string). One of the constants listed below will be returned.</p>
+<p>Syntax:<br><br>asset_get_type(name);<br></p>
 <table>
 <thead>
 <tr>
@@ -354,16 +356,70 @@
 <tbody>
 <tr>
 <td>name</td>
-<td>The name of the game asset to get the index of (a string).</td>
+<td>The name of the game asset to get the type of (a string).</td>
 </tr>
 </tbody>
 </table>
-<p>Returns:<br><br>Real</p>
-<p>Description<br><br>You can use this function to get the unique identifying index for a game asset from its name. If the asset is not found, the function will return a value of -1, otherwise it will return the unique index id for the asset being checked. This id can then be used in other functions as you would any other index value, like the sprite_index or the path_index, for example. Please note that although this function can be used to reference assets from strings (see example below) you should always make sure that the asset exists before using it otherwise you may get errors that will crash your game.<br>NOTE: Script names will not resolve as assets on the HTML5 target platform due to obfuscation of the final code, which may cause issues and should be taken into consideration when using the function.</p>
-<p>Example:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var obj = asset_get_index(&quot;obj_Enemy_&quot; + string(global.Level));</div><div class="line">if obj &gt; -1</div><div class="line">&#123;</div><div class="line">    instance_create_layer(random(room_width), random(room_height), obj, &quot;Enemy_Layer&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>The above code will get an object index from a string, and if that index exists, create an instance of the object in the game.</p>
+<p>Returns:<br><br>Constant<br></p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asset_object</td>
+<td>The given name refers to an object.</td>
+</tr>
+<tr>
+<td>asset_sprite</td>
+<td>The given name refers to a sprite.</td>
+</tr>
+<tr>
+<td>asset_sound</td>
+<td>The given name refers to a sound.</td>
+</tr>
+<tr>
+<td>asset_room</td>
+<td>The given name refers to a room.</td>
+</tr>
+<tr>
+<td>asset_tile</td>
+<td>The given name refers to a tile set.</td>
+</tr>
+<tr>
+<td>asset_path</td>
+<td>The given name refers to a path.</td>
+</tr>
+<tr>
+<td>asset_script</td>
+<td>The given name refers to a script.</td>
+</tr>
+<tr>
+<td>asset_font</td>
+<td>The given name refers to a font.</td>
+</tr>
+<tr>
+<td>asset_timeline</td>
+<td>The given name refers to a time line.</td>
+</tr>
+<tr>
+<td>asset_shader</td>
+<td>The given name refers to a shader.</td>
+</tr>
+<tr>
+<td>asset_unknown</td>
+<td>The given name refers to an asset that either does not exist, or is not one of the above listed.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if asset_get_type(&quot;pth_Path_&quot; + string(global.Game)) == asset_unknown</div><div class="line">   &#123;</div><div class="line">   show_debug_message(&quot;Path doesn&apos;t exist!!!&quot;);</div><div class="line">   &#125;</div><div class="line">else</div><div class="line">   &#123;</div><div class="line">   path_index = asset_get_index(&quot;pth_Path_&quot; + string(global.Game));</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>The above code checks a dynamically created asset name to see if the asset is of the correct type. If it is not, then a debug message will be shown, otherwise the asset name is used to assign the asset to the instance.</p>
 <hr>
-<p>在GML里面，实际上我们可以直接通过资源的名字，来访问实际资源。比如我们有一个<code>obj_Enemy</code>对象，那么我们在代码中的<code>obj_Enemy</code>，实际上就直接转换成了具体的资源ID。<br><br>那这个函数到底有啥用呢？其实就和文档中example所写的一样，如果你需要动态的获取一些资源的ID，那么这个函数就是你最好的选择。</p>
+<p>这个函数是根据asset的名字，来获取它的类别，返回的类型为系统提供的常量，简单易懂。</p>
 
       
     </div>
@@ -400,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/03/GML颜色/" rel="next" title="GML颜色">
-                <i class="fa fa-chevron-left"></i> GML颜色
+              <a href="/2017/07/07/DailyGML-asset-get-index/" rel="next" title="每天一个GML函数（1）- asset_get_index">
+                <i class="fa fa-chevron-left"></i> 每天一个GML函数（1）- asset_get_index
               </a>
             
           </div>
@@ -409,10 +465,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/12/DailyGML-asset-get-type/" rel="prev" title="每天一个GML函数（2）- asset_get_type">
-                每天一个GML函数（2）- asset_get_type <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
