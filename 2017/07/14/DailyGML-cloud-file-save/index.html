@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="转载，最近碰到好几次这个问题了，记录一下  原文：http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html 提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。 fatal:">
+<meta name="description" content="Syntax:cloud_file_save(file, description);    Argument Description     string The file to be uploaded (as a string).   description A brief description of the data being stored.    Returns:Real Descrip">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git 遇到fatal:multiple stage entries for merged file处理办法">
-<meta property="og:url" content="http://firzencode.coding.me/2017/07/02/git问题/index.html">
+<meta property="og:title" content="每天一个GML函数（3）- cloud_file_save">
+<meta property="og:url" content="http://firzencode.coding.me/2017/07/14/DailyGML-cloud-file-save/index.html">
 <meta property="og:site_name" content="firzencode.">
-<meta property="og:description" content="转载，最近碰到好几次这个问题了，记录一下  原文：http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html 提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。 fatal:">
-<meta property="og:updated_time" content="2017-07-12T07:13:48.000Z">
+<meta property="og:description" content="Syntax:cloud_file_save(file, description);    Argument Description     string The file to be uploaded (as a string).   description A brief description of the data being stored.    Returns:Real Descrip">
+<meta property="og:updated_time" content="2017-07-14T09:41:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git 遇到fatal:multiple stage entries for merged file处理办法">
-<meta name="twitter:description" content="转载，最近碰到好几次这个问题了，记录一下  原文：http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html 提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。 fatal:">
+<meta name="twitter:title" content="每天一个GML函数（3）- cloud_file_save">
+<meta name="twitter:description" content="Syntax:cloud_file_save(file, description);    Argument Description     string The file to be uploaded (as a string).   description A brief description of the data being stored.    Returns:Real Descrip">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://firzencode.coding.me/2017/07/02/git问题/"/>
+  <link rel="canonical" href="http://firzencode.coding.me/2017/07/14/DailyGML-cloud-file-save/"/>
 
 
 
 
 
-  <title> git 遇到fatal:multiple stage entries for merged file处理办法 | firzencode. </title>
+  <title> 每天一个GML函数（3）- cloud_file_save | firzencode. </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +259,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/02/git问题/">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/14/DailyGML-cloud-file-save/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="firzencode">
@@ -280,7 +280,7 @@
             
             
               
-                git 遇到fatal:multiple stage entries for merged file处理办法
+                每天一个GML函数（3）- cloud_file_save
               
             
           </h1>
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-02T20:07:42+08:00">
-                2017-07-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T12:32:35+08:00">
+                2017-07-14
               </time>
             
 
@@ -318,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programming/" itemprop="url" rel="index">
-                    <span itemprop="name">Programming</span>
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
                   </a>
                 </span>
 
@@ -353,13 +353,31 @@
       
 
       
-        <p>转载，最近碰到好几次这个问题了，记录一下</p>
+        <p>Syntax:<br><br>cloud_file_save(file, description);</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>The file to be uploaded (as a string).</td>
+</tr>
+<tr>
+<td>description</td>
+<td>A brief description of the data being stored.</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:<br><br>Real</p>
+<p>Description<br><br>This function will commit a file to the chosen cloud service for storage. The function will return a unique id value that should then be used in the appropriate asynchronous event to identify the <code>ds_map</code> that is returned as a “call back” from the cloud service. The file should contain all the information that you need to save for your game as you can only store one single “data blob” to the cloud, and running this function again will overwrite any previously stored values (as will using the <code>cloud_string_save</code> function). The description should be a short string of information that describes the save, eg: “Level2, Stage2”.<br>For further information on the returned asynchronous data, please see the function cloud_synchronise.</p>
+<p>Example:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var t_str = &quot;&quot;;</div><div class="line">for (var i = 0; i &lt; 10; i++;)</div><div class="line">   &#123;</div><div class="line">   t_str += string(global.Highscore[i]) + &quot;|&quot;</div><div class="line">   &#125;</div><div class="line">var file = file_text_open_write(&quot;Highscores.txt&quot;);</div><div class="line">file_text_write_string(file, t_str);</div><div class="line">file_text_close(file);</div><div class="line">save_check = cloud_file_save(&quot;Highscores.txt&quot;, &quot;Current Highscores&quot;);</div></pre></td></tr></table></figure></p>
+<p>The above code creates a string from the values stored in the global array “Highscores” and then writes this string to a file for local storage. The file is then sent to the cloud service for storage.</p>
 <hr>
-<p>原文：<a href="http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html" target="_blank" rel="external">http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html</a></p>
-<p>提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。</p>
-<p>fatal: multiple stage entries for merged file ‘filePath/~~~’</p>
-<p>最后解决办法：[记得先备份一下]<br>rm .git/index</p>
-<p>git add -A<br>git commit</p>
+<p>向云端储存文件的一个函数，但是这个云端到底是在哪里，并不是很清楚…需要研究一下<br></p>
 
       
     </div>
@@ -396,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/25/GMS2碰撞检查/" rel="next" title="GMS2碰撞检查">
-                <i class="fa fa-chevron-left"></i> GMS2碰撞检查
+              <a href="/2017/07/12/DailyGML-asset-get-type/" rel="next" title="每天一个GML函数（2）- asset_get_type">
+                <i class="fa fa-chevron-left"></i> 每天一个GML函数（2）- asset_get_type
               </a>
             
           </div>
@@ -406,8 +424,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/03/GML颜色/" rel="prev" title="GML颜色">
-                GML颜色 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/" rel="prev" title="RecyclerView和ViewPager在一起使用时的自动滚动的问题">
+                RecyclerView和ViewPager在一起使用时的自动滚动的问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
