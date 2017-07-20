@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="转载，最近碰到好几次这个问题了，记录一下  原文：http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html 提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。 fatal:">
+<meta name="description" content="cloud_synchronise Syntax:cloud_synchronise(); Returns:Real Description This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git 遇到fatal:multiple stage entries for merged file处理办法">
-<meta property="og:url" content="http://firzencode.coding.me/2017/07/02/git问题/index.html">
+<meta property="og:title" content="DailyGML-cloud-synchronise">
+<meta property="og:url" content="http://firzencode.coding.me/2017/07/19/DailyGML-cloud-synchronise/index.html">
 <meta property="og:site_name" content="firzencode.">
-<meta property="og:description" content="转载，最近碰到好几次这个问题了，记录一下  原文：http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html 提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。 fatal:">
-<meta property="og:updated_time" content="2017-07-12T07:13:48.000Z">
+<meta property="og:description" content="cloud_synchronise Syntax:cloud_synchronise(); Returns:Real Description This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service">
+<meta property="og:updated_time" content="2017-07-19T08:08:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git 遇到fatal:multiple stage entries for merged file处理办法">
-<meta name="twitter:description" content="转载，最近碰到好几次这个问题了，记录一下  原文：http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html 提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。 fatal:">
+<meta name="twitter:title" content="DailyGML-cloud-synchronise">
+<meta name="twitter:description" content="cloud_synchronise Syntax:cloud_synchronise(); Returns:Real Description This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://firzencode.coding.me/2017/07/02/git问题/"/>
+  <link rel="canonical" href="http://firzencode.coding.me/2017/07/19/DailyGML-cloud-synchronise/"/>
 
 
 
 
 
-  <title> git 遇到fatal:multiple stage entries for merged file处理办法 | firzencode. </title>
+  <title> DailyGML-cloud-synchronise | firzencode. </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +259,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/02/git问题/">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/19/DailyGML-cloud-synchronise/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="firzencode">
@@ -280,7 +280,7 @@
             
             
               
-                git 遇到fatal:multiple stage entries for merged file处理办法
+                DailyGML-cloud-synchronise
               
             
           </h1>
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-02T20:07:42+08:00">
-                2017-07-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T12:30:25+08:00">
+                2017-07-19
               </time>
             
 
@@ -318,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programming/" itemprop="url" rel="index">
-                    <span itemprop="name">Programming</span>
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
                   </a>
                 </span>
 
@@ -353,13 +353,67 @@
       
 
       
-        <p>转载，最近碰到好几次这个问题了，记录一下</p>
+        <p>cloud_synchronise</p>
+<p>Syntax:<br><br>cloud_synchronise();</p>
+<p>Returns:<br><br>Real</p>
+<p>Description<br></p>
+<p>This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service at game start up. The function returns a unique id value which would then be used in the Asynchronous Cloud Event to retrieve the relevant information from the ds_map that is created.</p>
+<p>This function will send off to the cloud for data, which will then trigger the appropriate asynchronous event. In this event, you can check the returned async_load ds_map for the following values:</p>
+<p>“status”: This holds the status code, where a negative value denotes an error, a description of which will be contained in the “errorString”. A value of 0 (or a positive value) indicates a success(see below for exact values), and the “resultString” will contain the returned data or a success message.</p>
+<p>“id”: The id which was returned from the called function. If you fire off a series of cloud_ requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</p>
+<p>“description”: The description of the last uploaded file.</p>
+<p>“resultString”: This holds a string which is the data blob returned from the cloud.</p>
+<p>“errorString”: returns an Error String for any error.</p>
+<p>The exact meaning of the returned “status” map entry is explained in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Status Value</th>
+<th>errorString / resultString</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>errorString = “Not logged in to <service>“</service></td>
+<td>You have not successfully logged in to the given Cloud Service</td>
+</tr>
+<tr>
+<td>0</td>
+<td>resultString = recovered data</td>
+<td>New game data downloaded from the cloud (following a cloud_synchronise call)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>resultString = “AlreadySynchronized”</td>
+<td>No new data since you last called cloud_synchronise</td>
+</tr>
+<tr>
+<td>2</td>
+<td>resultString = “ConflictDeferral”</td>
+<td>A conflict was encountered, but the gamer chose to ignore it</td>
+</tr>
+<tr>
+<td>3</td>
+<td>resultString = “GameUploadSuccess”</td>
+<td>data from cloud_string_save or cloud_file_save was successfully uploaded to the cloud</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>errorString = Description of error</td>
+<td>Any other negative number means a synchronisation failure</td>
+</tr>
+</tbody>
+</table>
+<p>Extended Example:<br>This function would be called in an event like the Game Start Event or in an object that is placed in the first room of your game, with the idea being that you check the current data blob from the cloud server to see if it is up to date or not.</p>
+<p>cloud_check = cloud_synchronise();</p>
+<p>You would then want to check the returned ds_map in the asynchronous Cloud Event to get the status and the returned string, if there is one, with something like the following code:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">if ds_map_find_value(async_load, &quot;id&quot;) == cloud_check</div><div class="line">   &#123;</div><div class="line">   if ds_map_find_value(async_load, &quot;status&quot;) &lt; 0</div><div class="line">      &#123;</div><div class="line">      show_message_async(&quot;Cloud Services not available. Please check connectivity.&quot;);</div><div class="line">      &#125;</div><div class="line">   else</div><div class="line">      &#123;</div><div class="line">      if ds_map_find_value(async_load, &quot;status&quot;) == 0</div><div class="line">         &#123;</div><div class="line">         var file = file_text_open_write(&quot;Save.txt&quot;);</div><div class="line">         file_text_write_string(file, ds_map_find_value(async_load, &quot;resultString&quot;));</div><div class="line">         file_text_close(file);</div><div class="line">         &#125;</div><div class="line">      &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>The above code checks to make sure that the correct asynchronous function call is being revised, then goes on to get the status of the returned cloud ds_map. if the status is a negative number, something has gone wrong and the user is informed, otherwise the code will continue and retrieve the synchronised data and write it to a text file for later use.</p>
 <hr>
-<p>原文：<a href="http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html" target="_blank" rel="external">http://www.hawk007.com/index/index.php?s=/Home/Article/detail/id/62.html</a></p>
-<p>提交代码到gitHub 的时候遇到“fatal:multiple stage entries for merged file” 提示，git status或者git add . 都无济于事。</p>
-<p>fatal: multiple stage entries for merged file ‘filePath/~~~’</p>
-<p>最后解决办法：[记得先备份一下]<br>rm .git/index</p>
-<p>git add -A<br>git commit</p>
+<p>Cloud系列的函数，在启动的一开始调用这个函数，然后拿到一个cloud_check的id，之后在Asynchronous Cloud Event中的map里的id字段，通过这个cloud_check来判断是不是我们的synchronise返回的结果。</p>
+<p>之后就根据上面的status value，来判断同步的结果。</p>
+<p>（大概之后会写个demo）</p>
 
       
     </div>
@@ -396,8 +450,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/25/GMS2碰撞检查/" rel="next" title="GMS2碰撞检查">
-                <i class="fa fa-chevron-left"></i> GMS2碰撞检查
+              <a href="/2017/07/18/DailyGML-cloud-string-save/" rel="next" title="DailyGML-cloud-string-save">
+                <i class="fa fa-chevron-left"></i> DailyGML-cloud-string-save
               </a>
             
           </div>
@@ -405,10 +459,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/03/GML颜色/" rel="prev" title="GML颜色">
-                GML颜色 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

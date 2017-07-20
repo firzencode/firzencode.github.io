@@ -260,6 +260,372 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/19/DailyGML-cloud-synchronise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/19/DailyGML-cloud-synchronise/" itemprop="url">
+                  DailyGML-cloud-synchronise
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T12:30:25+08:00">
+                2017-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cloud_synchronise</p>
+<p>Syntax:<br><br>cloud_synchronise();</p>
+<p>Returns:<br><br>Real</p>
+<p>Description<br></p>
+<p>This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service at game start up. The function returns a unique id value which would then be used in the Asynchronous Cloud Event to retrieve the relevant information from the ds_map that is created.</p>
+<p>This function will send off to the cloud for data, which will then trigger the appropriate asynchronous event. In this event, you can check the returned async_load ds_map for the following values:</p>
+<p>“status”: This holds the status code, where a negative value denotes an error, a description of which will be contained in the “errorString”. A value of 0 (or a positive value) indicates a success(see below for exact values), and the “resultString” will contain the returned data or a success message.</p>
+<p>“id”: The id which was returned from the called function. If you fire off a series of cloud_ requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</p>
+<p>“description”: The description of the last uploaded file.</p>
+<p>“resultString”: This holds a string which is the data blob returned from the cloud.</p>
+<p>“errorString”: returns an Error String for any error.</p>
+<p>The exact meaning of the returned “status” map entry is explained in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Status Value</th>
+<th>errorString / resultString</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>errorString = “Not logged in to <service>“</service></td>
+<td>You have not successfully logged in to the given Cloud Service</td>
+</tr>
+<tr>
+<td>0</td>
+<td>resultString = recovered data</td>
+<td>New game data downloaded from the cloud (following a cloud_synchronise call)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>resultString = “AlreadySynchronized”</td>
+<td>No new data since you last called cloud_synchronise</td>
+</tr>
+<tr>
+<td>2</td>
+<td>resultString = “ConflictDeferral”</td>
+<td>A conflict was encountered, but the gamer chose to ignore it</td>
+</tr>
+<tr>
+<td>3</td>
+<td>resultString = “GameUploadSuccess”</td>
+<td>data from cloud_string_save or cloud_file_save was successfully uploaded to the cloud</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>errorString = Description of error</td>
+<td>Any other negative number means a synchronisation failure</td>
+</tr>
+</tbody>
+</table>
+<p>Extended Example:<br>This function would be called in an event like the Game Start Event or in an object that is placed in the first room of your game, with the idea being that you check the current data blob from the cloud server to see if it is up to date or not.</p>
+<p>cloud_check = cloud_synchronise();</p>
+<p>You would then want to check the returned ds_map in the asynchronous Cloud Event to get the status and the returned string, if there is one, with something like the following code:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">if ds_map_find_value(async_load, &quot;id&quot;) == cloud_check</div><div class="line">   &#123;</div><div class="line">   if ds_map_find_value(async_load, &quot;status&quot;) &lt; 0</div><div class="line">      &#123;</div><div class="line">      show_message_async(&quot;Cloud Services not available. Please check connectivity.&quot;);</div><div class="line">      &#125;</div><div class="line">   else</div><div class="line">      &#123;</div><div class="line">      if ds_map_find_value(async_load, &quot;status&quot;) == 0</div><div class="line">         &#123;</div><div class="line">         var file = file_text_open_write(&quot;Save.txt&quot;);</div><div class="line">         file_text_write_string(file, ds_map_find_value(async_load, &quot;resultString&quot;));</div><div class="line">         file_text_close(file);</div><div class="line">         &#125;</div><div class="line">      &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>The above code checks to make sure that the correct asynchronous function call is being revised, then goes on to get the status of the returned cloud ds_map. if the status is a negative number, something has gone wrong and the user is informed, otherwise the code will continue and retrieve the synchronised data and write it to a text file for later use.</p>
+<hr>
+<p>Cloud系列的函数，在启动的一开始调用这个函数，然后拿到一个cloud_check的id，之后在Asynchronous Cloud Event中的map里的id字段，通过这个cloud_check来判断是不是我们的synchronise返回的结果。</p>
+<p>之后就根据上面的status value，来判断同步的结果。</p>
+<p>（大概之后会写个demo）</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/18/DailyGML-cloud-string-save/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/18/DailyGML-cloud-string-save/" itemprop="url">
+                  DailyGML-cloud-string-save
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-18T12:36:04+08:00">
+                2017-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cloud_string_save</p>
+<p>Syntax:<br><br>cloud_string_save(string, description);</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>The data string to be uploaded.</td>
+</tr>
+</tbody>
+</table>
+<p>description<br><br>A brief description of the data being stored.</p>
+<p>Returns:<br><br>Real</p>
+<p>Description<br><br>This function will commit a string to the chosen cloud service for storage. The function will return a unique id value that should then be used in the appropriate asynchronous event to identify the ds_map that is returned as a “call back” from the cloud service. The string should contain all the information that you need to save for your game as you can only store one single “data blob” to the cloud, and running this function again will overwrite any previously stored values (as will using the cloud_file_save function). The description should be a short string of information that describes the save, eg: “Level2, Stage2”.<br>For further information on the returned asynchronous data, please see the function cloud_synchronise.</p>
+<p>Example:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var t_str = &quot;&quot;;</div><div class="line">for (var i = 0; i &lt; 10; i++;)</div><div class="line">   &#123;</div><div class="line">   t_str += string(global.Highscore[i]) + &quot;|&quot;</div><div class="line">   &#125;</div><div class="line">save_check = cloud_string_save(t_str, &quot;Current Highscores&quot;);</div><div class="line">var file = file_text_open_write(&quot;Highscores.txt&quot;);</div><div class="line">file_text_write_string(file, t_str);</div><div class="line">file_text_close(file);</div></pre></td></tr></table></figure></p>
+<p>The above code creates a string from the values stored in the global array “Highscores” and then writes this string to the cloud service for storage, as well as writing it to a file for local storage.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1542,306 +1908,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/01/28/Java初始化静态Map常量/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/28/Java初始化静态Map常量/" itemprop="url">
-                  Java初始化静态Map常量
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-28T17:13:30+08:00">
-                2017-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载自<a href="http://dengminhui.iteye.com/blog/483530" target="_blank" rel="external">这里</a><br>这种做法还是挺实用的</p>
-<hr>
-<p>常用的声明方式（使用静态代码块）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Map map = <span class="keyword">new</span> HashMap();  </div><div class="line"><span class="keyword">static</span> &#123;  </div><div class="line">    map.put(<span class="string">"key1"</span>, <span class="string">"value1"</span>);  </div><div class="line">    map.put(<span class="string">"key2"</span>, <span class="string">"value2"</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>一种简约的方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Map map = <span class="keyword">new</span> HashMap() &#123;&#123;    </div><div class="line">    put(<span class="string">"key1"</span>, <span class="string">"value1"</span>);    </div><div class="line">    put(<span class="string">"key2"</span>, <span class="string">"value2"</span>);    </div><div class="line">&#125;&#125;;</div></pre></td></tr></table></figure>
-<p>这种方式，相当于重载HashMap的一个匿名实现。向原有的HashMap中添加了一个匿名构造方法。</p>
-<p>另外附加一个List/Set变量的声明方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> List list = Arrays.asList(<span class="string">"element1"</span>, <span class="string">"element2"</span>);</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/01/28/AlertDialog的尺寸问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/28/AlertDialog的尺寸问题/" itemprop="url">
-                  AlertDialog的尺寸问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-28T16:57:59+08:00">
-                2017-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>如何设置一个AlertDialog的尺寸？</p>
-<p>很容易就可以查到，有这么一个做法:<br><a href="http://stackoverflow.com/a/6922903" target="_blank" rel="external">How to control the width and height of the default Alert Dialog in Android?</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(<span class="keyword">this</span>);</div><div class="line">builder.setView(layout);</div><div class="line">builder.setTitle(<span class="string">"Title"</span>);</div><div class="line">alertDialog = builder.create();</div><div class="line">alertDialog.show();</div><div class="line">alertDialog.getWindow().setLayout(<span class="number">600</span>, <span class="number">400</span>); <span class="comment">//Controlling width and height.</span></div></pre></td></tr></table></figure>
-<p>注意：setLayout是在show()之后执行的。</p>
-<p>然而，眉头一皱，发现事情并没有这么简单。<br>按照这种方法显示出来的dialog，测量一下宽高之后，发现dialog的宽高比我们设置的要小一点点，而不是精确的相等。</p>
-<p>进行了好长时间的排查，最后确定，是alertDialog本身最大的View里面带上了padding，这个是由默认的style带过来的。<br>当时没有找到在哪里设置这个padding，于是使用了一种折衷的方式来使得dialog和我们要求的size相等。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> AlertDialog alertDialog = builder.setView(R.layout.dialog).create();</div><div class="line">alertDialog.show();</div><div class="line"></div><div class="line">View decorView = alertDialog.getWindow().getDecorView();</div><div class="line"><span class="keyword">int</span> paddingTop = decorView.getPaddingTop();</div><div class="line"><span class="keyword">int</span> paddingBottom = decorView.getPaddingBottom();</div><div class="line"><span class="keyword">int</span> paddingLeft = decorView.getPaddingLeft();</div><div class="line"><span class="keyword">int</span> paddingRight = decorView.getPaddingRight();</div><div class="line"></div><div class="line"><span class="keyword">int</span> width = <span class="number">600</span> + paddingLeft + paddingRight;</div><div class="line"><span class="keyword">int</span> height = <span class="number">400</span> + paddingTop + paddingBottom;</div><div class="line">alertDialog.getWindow().setLayout(width, height);</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1891,7 +1957,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
