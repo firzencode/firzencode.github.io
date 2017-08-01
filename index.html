@@ -260,6 +260,192 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/08/01/DailyGML-http-func/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/01/DailyGML-http-func/" itemprop="url">
+                  DailyGML(7)-http-func
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T12:33:23+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>来看看GML内置的HTTP函数。</p>
+<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p>http_get(url);</p>
+<p>arg0 - string : Get请求的URL</p>
+<p>return - Real : ？</p>
+<p>发送这个请求之后，会异步返回AsyncEvent，返回的结果会保存在一个叫做async_load的map里面：</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>http方法的返回值，用来区分多个http请求的</td>
+</tr>
+<tr>
+<td>status</td>
+<td>小于0的为错误，0为completed，1为正在接受数据</td>
+</tr>
+<tr>
+<td>result</td>
+<td>返回的数据(string)</td>
+</tr>
+<tr>
+<td>url</td>
+<td>之前的request url</td>
+</tr>
+<tr>
+<td>http_status</td>
+<td>http status response code</td>
+</tr>
+<tr>
+<td>contentLength</td>
+<td>如果status为1，则会包含这个，传输数据的总长度</td>
+</tr>
+<tr>
+<td>sizeDownloaded</td>
+<td>如果status为1，则会包含这个，已经下载的数据</td>
+</tr>
+</tbody>
+</table>
+<p>example</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">get = http_get(&quot;http://www.MacSweeneyGames.com/logon?username=&quot; + name);</div><div class="line"></div><div class="line">if ds_map_find_value(async_load, &quot;id&quot;) == get</div><div class="line">&#123;</div><div class="line">   if ds_map_find_value(async_load, &quot;status&quot;) == 0</div><div class="line">    &#123;</div><div class="line">        r_str = ds_map_find_value(async_load, &quot;result&quot;);</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        r_str = &quot;null&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/28/DailyGML-get-xxx-async/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1756,165 +1942,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/05/25/GMS2碰撞检查/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/25/GMS2碰撞检查/" itemprop="url">
-                  GMS2碰撞检查
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T20:11:46+08:00">
-                2017-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GMS2/" itemprop="url" rel="index">
-                    <span itemprop="name">GMS2</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>浏览了一下GML Reference 中碰撞检查这个章节的内容，整个碰撞检测的方法分为四个部分</p>
-<ul>
-<li>简单碰撞检查</li>
-<li>高级碰撞检查</li>
-<li>不包含蒙层（Mask）的碰撞检测</li>
-<li>物理碰撞<br>我们一个部分一个部分的来看相关的内容。</li>
-</ul>
-<h2 id="简单碰撞检查"><a href="#简单碰撞检查" class="headerlink" title="简单碰撞检查"></a>简单碰撞检查</h2><h3 id="place系列"><a href="#place系列" class="headerlink" title="place系列"></a>place系列</h3><p>place_empty(x, y);<br>检查当前的inst，如果放到x,y的位置，是否会和其他的物体碰撞<br>返回boolean</p>
-<p>place_free(x, y)<br>检查当前的inst，如果放到x,y的位置，是否会和其他标记为solid的物体碰撞<br>solid标记在object editor里面设置<br>会使得这个物体的碰撞会优先于代码执行（？）<br>返回boolean</p>
-<p>place_meeting(x, y, object)<br>检查当前的inst，在指定位置是否和某个inst或者某种object碰撞<br>object接受all或者other参数<br>返回boolean</p>
-<h3 id="position系列"><a href="#position系列" class="headerlink" title="position系列"></a>position系列</h3><p>position_empty(x, y)<br>检查xy位置是否有inst<br>返回boolean</p>
-<p>position_meeting(x, y，obj)<br>检查x,y位置是否有某个inst或者某种object的碰撞<br>object接受all或者other参数<br>返回boolean</p>
-<p>position_change(x, y, obj, perf)<br>检查x,y位置是否有物体，如果有物体，会在他们的位置上创建新的obj类型的物体，同时将会原来的销毁<br>如果perf为false，那么不执行相应的Destroy，CleanUp和Create（TODO，这个要测试一下）<br>没有返回值</p>
-<p>position_destroy(x, y)<br>检查x,y位置是否有物体，如果有的话，会被销毁<br>没有返回值</p>
-<h3 id="instance-系列"><a href="#instance-系列" class="headerlink" title="instance 系列"></a>instance 系列</h3><p>instance_place(x, y, obj)<br>检查当前inst放置到x,y位置，当前的inst是否和指定inst相撞或者某种obj相撞<br>会返回相撞的inst的id（1个）<br>obj参数接受all和other<br>这个和place_meeting几乎一样，只不过会返回被碰撞的id</p>
-<p>instance_position(x, y, obj)<br>检查x,y位置，当前inst是否和指定的inst或者某种obj相撞，返回inst的id<br>obj参数接受all和other<br>这个和上面一个不同，是检查position，而不是将inst放过去检查collision mask</p>
-<p>（未完）</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1964,7 +1991,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
