@@ -260,6 +260,169 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/07/DailyGML-asset-get-index/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/07/DailyGML-asset-get-index/" itemprop="url">
+                  每天一个GML函数（1）- asset_get_index
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T09:32:44+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Syntax: asset_get_index(name);<br></p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>The name of the game asset to get the index of (a string).</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:<br><br>Real</p>
+<p>Description<br><br>You can use this function to get the unique identifying index for a game asset from its name. If the asset is not found, the function will return a value of -1, otherwise it will return the unique index id for the asset being checked. This id can then be used in other functions as you would any other index value, like the sprite_index or the path_index, for example. Please note that although this function can be used to reference assets from strings (see example below) you should always make sure that the asset exists before using it otherwise you may get errors that will crash your game.<br>NOTE: Script names will not resolve as assets on the HTML5 target platform due to obfuscation of the final code, which may cause issues and should be taken into consideration when using the function.</p>
+<p>Example:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var obj = asset_get_index(&quot;obj_Enemy_&quot; + string(global.Level));</div><div class="line">if obj &gt; -1</div><div class="line">&#123;</div><div class="line">    instance_create_layer(random(room_width), random(room_height), obj, &quot;Enemy_Layer&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>The above code will get an object index from a string, and if that index exists, create an instance of the object in the game.</p>
+<hr>
+<p>在GML里面，实际上我们可以直接通过资源的名字，来访问实际资源。比如我们有一个<code>obj_Enemy</code>对象，那么我们在代码中的<code>obj_Enemy</code>，实际上就直接转换成了具体的资源ID。<br><br>那这个函数到底有啥用呢？其实就和文档中example所写的一样，如果你需要动态的获取一些资源的ID，那么这个函数就是你最好的选择。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/03/GML颜色/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1343,7 +1506,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

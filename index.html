@@ -260,6 +260,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/11/27/初探RoomPersistenceLibrary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/27/初探RoomPersistenceLibrary/" itemprop="url">
+                  Android架构组件——初探Room Persistence Library
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-27T16:32:30+08:00">
+                2017-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>谷歌前段时间推出了Android Architecture Components的1.0.0正式版，为App的架构提供了一些官方功能，运用这些工具，我们可以搭建更加灵活和健壮的APP架构。今天要说的就是这个组件之一，Room Persistence Library</p>
+<h2 id="什么是Room"><a href="#什么是Room" class="headerlink" title="什么是Room"></a>什么是Room</h2><p>官方链接：<a href="https://developer.android.com/topic/libraries/architecture/room.html" target="_blank" rel="external">link</a></p>
+<blockquote>
+<p>The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite.</p>
+</blockquote>
+<p>这是在SQLite上的一层抽象封装，让你可以更加无障碍的使用SQLite数据库</p>
+<h2 id="如何使用Room"><a href="#如何使用Room" class="headerlink" title="如何使用Room"></a>如何使用Room</h2><h3 id="接入"><a href="#接入" class="headerlink" title="接入"></a>接入</h3><p>1、在<code>app</code>的<code>build.gradle</code>中的dependencies里加入以下代码</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compile (<span class="string">"android.arch.persistence.room:runtime:1.0.0"</span>)</div><div class="line">annotationProcessor (<span class="string">"android.arch.persistence.room:compiler:1.0.0"</span>)</div></pre></td></tr></table></figure>
+<p>2、比较诡异的一个事情是，由于我们的APP使用了support包25.4.0版本，而room里面自带了26+的版本，如果直接接入Room，会导致我们使用FragmentActivity时，找不到ActivityCompatApi23这个类。</p>
+<p>于是在<code>project</code>的<code>build.gradle</code>中的allprojects下面，增加了强制切换依赖的代码。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">configurations.all &#123;</div><div class="line">    resolutionStrategy.force <span class="string">'com.android.support:support-core-utils:25.4.0'</span></div><div class="line">    resolutionStrategy.force <span class="string">'com.android.support:support-annotations:25.4.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3、这样就完成了接入</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="1、创建Entity"><a href="#1、创建Entity" class="headerlink" title="1、创建Entity"></a>1、创建Entity</h4><p>创建基本的Entity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>类</p>
+<ul>
+<li>如果想使用复合主键，在class上s使用@Entity(primaryKeys = {“firstName”, “lastName”})</li>
+<li>数据表默认为class的名字，如果想要替换，在class上使用@Entity(tableName = “users”)（SQLite中的table名字是大小写不敏感的）</li>
+</ul>
+<p>字段</p>
+<ul>
+<li>每个字段如果不为public，需要提供getter和setter方法。</li>
+<li>如果想要使用自动增长id，在字段上使用@PrimaryKey(autoGenerate = true)</li>
+<li>每个列的名字默认为字段的名字，如果需要替换，在字段上使用@ColumnInfo(name = “first_name”)</li>
+</ul>
+<p>创建索引<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(indices = &#123;<span class="meta">@Index</span>(<span class="string">"name"</span>),</div><div class="line">        <span class="meta">@Index</span>(value = &#123;<span class="string">"last_name"</span>, <span class="string">"address"</span>&#125;)&#125;)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line">    <span class="keyword">public</span> String address;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>保持索引唯一<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(indices = &#123;<span class="meta">@Index</span>(value = &#123;<span class="string">"first_name"</span>, <span class="string">"last_name"</span>&#125;,</div><div class="line">        unique = <span class="keyword">true</span>)&#125;)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"first_name"</span>)</div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>外键<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(foreignKeys = <span class="meta">@ForeignKey</span>(entity = User.class,</div><div class="line">                                  parentColumns = <span class="string">"id"</span>,</div><div class="line">                                  childColumns = <span class="string">"user_id"</span>))</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> bookId;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String title;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"user_id"</span>)</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> userId;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>嵌套对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Address</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> String street;</div><div class="line">    <span class="keyword">public</span> String state;</div><div class="line">    <span class="keyword">public</span> String city;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"post_code"</span>)</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> postCode;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@Embedded</span></div><div class="line">    <span class="keyword">public</span> Address address;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="2、创建DAO（Data-Access-Object）"><a href="#2、创建DAO（Data-Access-Object）" class="headerlink" title="2、创建DAO（Data Access Object）"></a>2、创建DAO（Data Access Object）</h4><p>Room不允许在主线程进行操作，除非在创建Database的时候调用allowMainThreadQueries()<br>可以使用LiveData或者Flowable来接收查询的结果</p>
+<p>增删改</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Insert</span>(onConflict = OnConflictStrategy.REPLACE)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertUsers</span><span class="params">(User... users)</span></span>; <span class="comment">// can return long -&gt; row id</span></div><div class="line"></div><div class="line">    <span class="meta">@Insert</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertBothUsers</span><span class="params">(User user1, User user2)</span></span>; <span class="comment">// List&lt;Long&gt; or long[] -&gt; row ids</span></div><div class="line"></div><div class="line">    <span class="meta">@Insert</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertUsersAndFriends</span><span class="params">(User user, List&lt;User&gt; friends)</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Update</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateUsers</span><span class="params">(User... users)</span></span>; <span class="comment">// int -&gt; row count</span></div><div class="line"></div><div class="line">    <span class="meta">@Delete</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteUsers</span><span class="params">(User... users)</span></span>; <span class="comment">// int -&gt; row count</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>除了使用接口之外，还可以使用抽象类来定义DAO，可以带上一个参数为RoomDatabase的构造函数</p>
+<p>查询</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user"</span>)</div><div class="line">    <span class="keyword">public</span> User[] loadAllUsers();</div><div class="line"></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE age &gt; :minAge"</span>)</div><div class="line">    <span class="keyword">public</span> User[] loadAllUsersOlderThan(<span class="keyword">int</span> minAge);</div><div class="line"></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE age BETWEEN :minAge AND :maxAge"</span>)</div><div class="line">    <span class="keyword">public</span> User[] loadAllUsersBetweenAges(<span class="keyword">int</span> minAge, <span class="keyword">int</span> maxAge);</div><div class="line"></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE first_name LIKE :search "</span></div><div class="line">           + <span class="string">"OR last_name LIKE :search"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findUserWithName</span><span class="params">(String search)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="3-创建Database"><a href="#3-创建Database" class="headerlink" title="3. 创建Database"></a>3. 创建Database</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Database</span>(entities = &#123;User.class&#125;, version = <span class="number">1</span>)</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> <span class="keyword">extends</span> <span class="title">RoomDatabase</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> UserDao <span class="title">userDao</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4-代码中使用"><a href="#4-代码中使用" class="headerlink" title="4. 代码中使用"></a>4. 代码中使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">AppDatabase db = Room.databaseBuilder(getApplicationContext(),</div><div class="line">        AppDatabase.class, <span class="string">"database-name"</span>).build();</div></pre></td></tr></table></figure>
+<h2 id="为什么使用Room"><a href="#为什么使用Room" class="headerlink" title="为什么使用Room"></a>为什么使用Room</h2><h3 id="Room-vs-SQLite"><a href="#Room-vs-SQLite" class="headerlink" title="Room vs SQLite"></a>Room vs SQLite</h3><p>直接使用SQLite会比较复杂<br>Room封装更加简单灵活</p>
+<h3 id="Room-vs-Realm"><a href="#Room-vs-Realm" class="headerlink" title="Room vs Realm"></a>Room vs Realm</h3><p>在数据处理速度上，Realm &gt; Room，<br>包体积和方法数，Room 优于 Realm<br>如果不介意写一些SQL查询语句，以及数据处理的规模不是很大，推荐使用Room，更加小巧灵活<br>如果要处理大批量数据，推荐接入Realm</p>
+<p>参考：<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/0926/8551.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/0926/8551.html</a></p>
+<h2 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h2><p>1）数据库版本和数据迁移</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Room.databaseBuilder(getApplicationContext(), MyDb.class, <span class="string">"database-name"</span>)</div><div class="line">        .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> Migration MIGRATION_1_2 = <span class="keyword">new</span> Migration(<span class="number">1</span>, <span class="number">2</span>) &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate</span><span class="params">(SupportSQLiteDatabase database)</span> </span>&#123;</div><div class="line">        database.execSQL(<span class="string">"CREATE TABLE `Fruit` (`id` INTEGER, "</span></div><div class="line">                + <span class="string">"`name` TEXT, PRIMARY KEY(`id`))"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> Migration MIGRATION_2_3 = <span class="keyword">new</span> Migration(<span class="number">2</span>, <span class="number">3</span>) &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate</span><span class="params">(SupportSQLiteDatabase database)</span> </span>&#123;</div><div class="line">        database.execSQL(<span class="string">"ALTER TABLE Book "</span></div><div class="line">                + <span class="string">" ADD COLUMN pub_year INTEGER"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>2）scheme和数据库测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(AndroidJUnit4.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MigrationTest</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TEST_DB = <span class="string">"migration-test"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Rule</span></div><div class="line">    <span class="keyword">public</span> MigrationTestHelper helper;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MigrationTest</span><span class="params">()</span> </span>&#123;</div><div class="line">        helper = <span class="keyword">new</span> MigrationTestHelper(InstrumentationRegistry.getInstrumentation(),</div><div class="line">                MigrationDb.class.getCanonicalName(),</div><div class="line">                <span class="keyword">new</span> FrameworkSQLiteOpenHelperFactory());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate1To2</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        SupportSQLiteDatabase db = helper.createDatabase(TEST_DB, <span class="number">1</span>);</div><div class="line"></div><div class="line">        <span class="comment">// db has schema version 1. insert some data using SQL queries.</span></div><div class="line">        <span class="comment">// You cannot use DAO classes because they expect the latest schema.</span></div><div class="line">        db.execSQL(...);</div><div class="line"></div><div class="line">        <span class="comment">// Prepare for the next version.</span></div><div class="line">        db.close();</div><div class="line"></div><div class="line">        <span class="comment">// Re-open the database with version 2 and provide</span></div><div class="line">        <span class="comment">// MIGRATION_1_2 as the migration process.</span></div><div class="line">        db = helper.runMigrationsAndValidate(TEST_DB, <span class="number">2</span>, <span class="keyword">true</span>, MIGRATION_1_2);</div><div class="line"></div><div class="line">        <span class="comment">// MigrationTestHelper automatically verifies the schema changes,</span></div><div class="line">        <span class="comment">// but you need to validate that the data was migrated properly.</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3）Understand why Room doesn’t allow object references</p>
+<p>Entity之间不允许互相引用（和之前的embedded不同）</p>
+<p>应该使用POJO（Plain Old Java Object）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameTuple</span> </span>&#123;</div><div class="line">    <span class="meta">@ColumnInfo</span>(name=<span class="string">"first_name"</span>)</div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name=<span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT first_name, last_name FROM user"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;NameTuple&gt; <span class="title">loadFullName</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/08/31/通过ADB命令获取当前activity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1802,169 +1992,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/07/DailyGML-asset-get-index/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/07/DailyGML-asset-get-index/" itemprop="url">
-                  每天一个GML函数（1）- asset_get_index
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T09:32:44+08:00">
-                2017-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GMS2/" itemprop="url" rel="index">
-                    <span itemprop="name">GMS2</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Syntax: asset_get_index(name);<br></p>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>name</td>
-<td>The name of the game asset to get the index of (a string).</td>
-</tr>
-</tbody>
-</table>
-<p>Returns:<br><br>Real</p>
-<p>Description<br><br>You can use this function to get the unique identifying index for a game asset from its name. If the asset is not found, the function will return a value of -1, otherwise it will return the unique index id for the asset being checked. This id can then be used in other functions as you would any other index value, like the sprite_index or the path_index, for example. Please note that although this function can be used to reference assets from strings (see example below) you should always make sure that the asset exists before using it otherwise you may get errors that will crash your game.<br>NOTE: Script names will not resolve as assets on the HTML5 target platform due to obfuscation of the final code, which may cause issues and should be taken into consideration when using the function.</p>
-<p>Example:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var obj = asset_get_index(&quot;obj_Enemy_&quot; + string(global.Level));</div><div class="line">if obj &gt; -1</div><div class="line">&#123;</div><div class="line">    instance_create_layer(random(room_width), random(room_height), obj, &quot;Enemy_Layer&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>The above code will get an object index from a string, and if that index exists, create an instance of the object in the game.</p>
-<hr>
-<p>在GML里面，实际上我们可以直接通过资源的名字，来访问实际资源。比如我们有一个<code>obj_Enemy</code>对象，那么我们在代码中的<code>obj_Enemy</code>，实际上就直接转换成了具体的资源ID。<br><br>那这个函数到底有啥用呢？其实就和文档中example所写的一样，如果你需要动态的获取一些资源的ID，那么这个函数就是你最好的选择。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2014,7 +2041,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
