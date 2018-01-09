@@ -260,6 +260,140 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2018/01/08/LiveData和ViewModel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/08/LiveData和ViewModel/" itemprop="url">
+                  Android架构组件——ViewModel和LiveData
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T16:19:00+08:00">
+                2018-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="View-Model"><a href="#View-Model" class="headerlink" title="View Model"></a>View Model</h1><h2 id="Why-View-Model"><a href="#Why-View-Model" class="headerlink" title="Why View Model"></a>Why View Model</h2><p>1）Android Framework 处理各种组件的声明周期，会在某些时候决定销毁并且重建UI组件（activity、fragment）。在这个时候，很多界面上的数据就丢失了。<br>虽然可以使用onSaveInstanceState来做数据保存和恢复，但是这个只适合小规模的数据，不适合大量的数据需要序列化和反序列化的情况。</p>
+<p>2）很多时候我们需要异步请求数据，但是返回的时候如果UI组件（activity，fragment）已经被销毁和重建（比如转屏），我们又要去重新请求，这个是一种资源的浪费</p>
+<p>3）从UI组件（activity，fragment）中分离数据层的逻辑</p>
+<h2 id="Use-View-Model"><a href="#Use-View-Model" class="headerlink" title="Use View Model"></a>Use View Model</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//////////  基本使用  //////////</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> MutableLiveData&lt;List&lt;User&gt;&gt; users;</div><div class="line">    <span class="keyword">public</span> LiveData&lt;List&lt;User&gt;&gt; getUsers() &#123;</div><div class="line">        <span class="keyword">if</span> (users == <span class="keyword">null</span>) &#123;</div><div class="line">            users = <span class="keyword">new</span> MutableLiveData&lt;List&lt;Users&gt;&gt;();</div><div class="line">            loadUsers();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> users;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadUsers</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// Do an asyncronous operation to fetch users.</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="comment">// Create a ViewModel the first time the system calls an activity's onCreate() method.</span></div><div class="line">        <span class="comment">// Re-created activities receive the same MyViewModel instance created by the first activity.</span></div><div class="line"></div><div class="line">        MyViewModel model = ViewModelProviders.of(<span class="keyword">this</span>).get(MyViewModel.class);</div><div class="line">        model.getUsers().observe(<span class="keyword">this</span>, users -&gt; &#123;</div><div class="line">            <span class="comment">// update UI</span></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//////////  Fragment之间共享数据 //////////</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SharedViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MutableLiveData&lt;Item&gt; selected = <span class="keyword">new</span> MutableLiveData&lt;Item&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">select</span><span class="params">(Item item)</span> </span>&#123;</div><div class="line">        selected.setValue(item);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> LiveData&lt;Item&gt; <span class="title">getSelected</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> selected;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MasterFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> SharedViewModel model;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        model = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);</div><div class="line">        itemSelector.setOnClickListener(item -&gt; &#123;</div><div class="line">            model.select(item);</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DetailFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        SharedViewModel model = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);</div><div class="line">        model.getSelected().observe(<span class="keyword">this</span>, &#123; item -&gt;</div><div class="line">           <span class="comment">// Update the UI.</span></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/images/viewmodel-lifecycle.png" alt="Image"></p>
+<h1 id="Live-Data"><a href="#Live-Data" class="headerlink" title="Live Data"></a>Live Data</h1><h2 id="什么是LiveData"><a href="#什么是LiveData" class="headerlink" title="什么是LiveData"></a>什么是LiveData</h2><p>LiveData是一个数据观察者，同时会和App中组件的声明周期进行绑定。当生命周期处于STARTED或者RESUMED的时候，会</p>
+<h2 id="使用LiveData的好处"><a href="#使用LiveData的好处" class="headerlink" title="使用LiveData的好处"></a>使用LiveData的好处</h2><ul>
+<li>保证UI和数据状态一致</li>
+<li>没有内存泄露</li>
+<li>当停止activity的时候，不会crash</li>
+<li>不需要手动处理声明周期</li>
+<li>自动处理configuration change（比如转屏）</li>
+<li>共享资源（LiveData -&gt; Service，需要数据的直接观察这个LiveData即可）</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/11/27/初探RoomPersistenceLibrary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1773,225 +1907,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/12/DailyGML-asset-get-type/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/12/DailyGML-asset-get-type/" itemprop="url">
-                  每天一个GML函数（2）- asset_get_type
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T12:06:47+08:00">
-                2017-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GMS2/" itemprop="url" rel="index">
-                    <span itemprop="name">GMS2</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>asset_get_type</p>
-<p>Description<br><br>With this function you can get the type of asset being referenced from its name (a string). One of the constants listed below will be returned.</p>
-<p>Syntax:<br><br>asset_get_type(name);<br></p>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>name</td>
-<td>The name of the game asset to get the type of (a string).</td>
-</tr>
-</tbody>
-</table>
-<p>Returns:<br><br>Constant<br></p>
-<table>
-<thead>
-<tr>
-<th>Constant</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>asset_object</td>
-<td>The given name refers to an object.</td>
-</tr>
-<tr>
-<td>asset_sprite</td>
-<td>The given name refers to a sprite.</td>
-</tr>
-<tr>
-<td>asset_sound</td>
-<td>The given name refers to a sound.</td>
-</tr>
-<tr>
-<td>asset_room</td>
-<td>The given name refers to a room.</td>
-</tr>
-<tr>
-<td>asset_tile</td>
-<td>The given name refers to a tile set.</td>
-</tr>
-<tr>
-<td>asset_path</td>
-<td>The given name refers to a path.</td>
-</tr>
-<tr>
-<td>asset_script</td>
-<td>The given name refers to a script.</td>
-</tr>
-<tr>
-<td>asset_font</td>
-<td>The given name refers to a font.</td>
-</tr>
-<tr>
-<td>asset_timeline</td>
-<td>The given name refers to a time line.</td>
-</tr>
-<tr>
-<td>asset_shader</td>
-<td>The given name refers to a shader.</td>
-</tr>
-<tr>
-<td>asset_unknown</td>
-<td>The given name refers to an asset that either does not exist, or is not one of the above listed.</td>
-</tr>
-</tbody>
-</table>
-<p>Example:<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if asset_get_type(&quot;pth_Path_&quot; + string(global.Game)) == asset_unknown</div><div class="line">   &#123;</div><div class="line">   show_debug_message(&quot;Path doesn&apos;t exist!!!&quot;);</div><div class="line">   &#125;</div><div class="line">else</div><div class="line">   &#123;</div><div class="line">   path_index = asset_get_index(&quot;pth_Path_&quot; + string(global.Game));</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>The above code checks a dynamically created asset name to see if the asset is of the correct type. If it is not, then a debug message will be shown, otherwise the asset name is used to assign the asset to the instance.</p>
-<hr>
-<p>这个函数是根据asset的名字，来获取它的类别，返回的类型为系统提供的常量，简单易懂。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2041,7 +1956,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2058,6 +1973,15 @@
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>
@@ -2106,8 +2030,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

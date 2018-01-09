@@ -260,6 +260,225 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/12/DailyGML-asset-get-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/12/DailyGML-asset-get-type/" itemprop="url">
+                  每天一个GML函数（2）- asset_get_type
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T12:06:47+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GMS2/" itemprop="url" rel="index">
+                    <span itemprop="name">GMS2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>asset_get_type</p>
+<p>Description<br><br>With this function you can get the type of asset being referenced from its name (a string). One of the constants listed below will be returned.</p>
+<p>Syntax:<br><br>asset_get_type(name);<br></p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>The name of the game asset to get the type of (a string).</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:<br><br>Constant<br></p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asset_object</td>
+<td>The given name refers to an object.</td>
+</tr>
+<tr>
+<td>asset_sprite</td>
+<td>The given name refers to a sprite.</td>
+</tr>
+<tr>
+<td>asset_sound</td>
+<td>The given name refers to a sound.</td>
+</tr>
+<tr>
+<td>asset_room</td>
+<td>The given name refers to a room.</td>
+</tr>
+<tr>
+<td>asset_tile</td>
+<td>The given name refers to a tile set.</td>
+</tr>
+<tr>
+<td>asset_path</td>
+<td>The given name refers to a path.</td>
+</tr>
+<tr>
+<td>asset_script</td>
+<td>The given name refers to a script.</td>
+</tr>
+<tr>
+<td>asset_font</td>
+<td>The given name refers to a font.</td>
+</tr>
+<tr>
+<td>asset_timeline</td>
+<td>The given name refers to a time line.</td>
+</tr>
+<tr>
+<td>asset_shader</td>
+<td>The given name refers to a shader.</td>
+</tr>
+<tr>
+<td>asset_unknown</td>
+<td>The given name refers to an asset that either does not exist, or is not one of the above listed.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if asset_get_type(&quot;pth_Path_&quot; + string(global.Game)) == asset_unknown</div><div class="line">   &#123;</div><div class="line">   show_debug_message(&quot;Path doesn&apos;t exist!!!&quot;);</div><div class="line">   &#125;</div><div class="line">else</div><div class="line">   &#123;</div><div class="line">   path_index = asset_get_index(&quot;pth_Path_&quot; + string(global.Game));</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>The above code checks a dynamically created asset name to see if the asset is of the correct type. If it is not, then a debug message will be shown, otherwise the asset name is used to assign the asset to the instance.</p>
+<hr>
+<p>这个函数是根据asset的名字，来获取它的类别，返回的类型为系统提供的常量，简单易懂。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/07/DailyGML-asset-get-index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1506,7 +1725,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1523,6 +1742,15 @@
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>
@@ -1571,8 +1799,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
