@@ -260,6 +260,130 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2018/02/13/GML迷之问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/02/13/GML迷之问题/" itemprop="url">
+                  GML迷之问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-13T11:01:00+08:00">
+                2018-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近一直在做GMS2的GUI研究，发现一个很诡异的问题</p>
+<p>在退出整个程序的时候，如果在某些对象的CleanUp中调用了show_debug_message，会导致退出的时候崩溃。虽然不知道是什么原因，但是只要将这行代码去掉，就不再崩溃了。</p>
+<p>怀疑是底层哪里有bug，但是靠上层代码是没法修复的了。</p>
+<p>记录在这里，也许之后的Runtime更新会修复这个问题。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2018/01/08/LiveData和ViewModel/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1749,173 +1873,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/14/DailyGML-cloud-file-save/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/14/DailyGML-cloud-file-save/" itemprop="url">
-                  每天一个GML函数（3）- cloud_file_save
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T12:32:35+08:00">
-                2017-07-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GMS2/" itemprop="url" rel="index">
-                    <span itemprop="name">GMS2</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Syntax:<br><br>cloud_file_save(file, description);</p>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>string</td>
-<td>The file to be uploaded (as a string).</td>
-</tr>
-<tr>
-<td>description</td>
-<td>A brief description of the data being stored.</td>
-</tr>
-</tbody>
-</table>
-<p>Returns:<br><br>Real</p>
-<p>Description<br><br>This function will commit a file to the chosen cloud service for storage. The function will return a unique id value that should then be used in the appropriate asynchronous event to identify the <code>ds_map</code> that is returned as a “call back” from the cloud service. The file should contain all the information that you need to save for your game as you can only store one single “data blob” to the cloud, and running this function again will overwrite any previously stored values (as will using the <code>cloud_string_save</code> function). The description should be a short string of information that describes the save, eg: “Level2, Stage2”.<br>For further information on the returned asynchronous data, please see the function cloud_synchronise.</p>
-<p>Example:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var t_str = &quot;&quot;;</div><div class="line">for (var i = 0; i &lt; 10; i++;)</div><div class="line">   &#123;</div><div class="line">   t_str += string(global.Highscore[i]) + &quot;|&quot;</div><div class="line">   &#125;</div><div class="line">var file = file_text_open_write(&quot;Highscores.txt&quot;);</div><div class="line">file_text_write_string(file, t_str);</div><div class="line">file_text_close(file);</div><div class="line">save_check = cloud_file_save(&quot;Highscores.txt&quot;, &quot;Current Highscores&quot;);</div></pre></td></tr></table></figure></p>
-<p>The above code creates a string from the values stored in the global array “Highscores” and then writes this string to a file for local storage. The file is then sent to the cloud service for storage.</p>
-<hr>
-<p>向云端储存文件的一个函数，但是这个云端到底是在哪里，并不是很清楚…需要研究一下<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1965,7 +1922,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1987,7 +1944,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
