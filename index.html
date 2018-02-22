@@ -260,6 +260,151 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2018/02/22/CertificatePinner与Charles抓包的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="firzencode">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="firzencode.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/02/22/CertificatePinner与Charles抓包的问题/" itemprop="url">
+                  证书固定、CertificatePinner与Charles抓包的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T13:32:14+08:00">
+                2018-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="证书固定"><a href="#证书固定" class="headerlink" title="证书固定"></a>证书固定</h2><p>前段时间根据为我们的代码中增加了证书固定的代码，用来防止APP的网络请求被抓包。</p>
+<p>方法如下：<br>1、使用openssl，获取我们自己CA证书的公钥</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl s_client -connect mydomain.com:443 -servername mydomain.com | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64</div></pre></td></tr></table></figure>
+<p>2、因为网络库使用的OkHttp+Retrofit，所以代码中增加了如下内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CA_DOMAIN = <span class="string">"*.mydomain.com"</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CA_PUBLIC_KEY = <span class="string">"sha256/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>;</div><div class="line"></div><div class="line">   .....</div><div class="line"></div><div class="line">   CertificatePinner pinner = <span class="keyword">new</span> CertificatePinner.Builder()</div><div class="line">               .add(CA_DOMAIN, CA_PUBLIC_KEY)</div><div class="line">               .build();</div><div class="line"></div><div class="line">   .....</div><div class="line">   </div><div class="line">   OkHttpClient.Builder clientBuilder = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">           .certificatePinner(pinner);</div></pre></td></tr></table></figure>
+<p>这样，就可以一定程度上保护我们的代码不被抓包。</p>
+<h2 id="抓包调试"><a href="#抓包调试" class="headerlink" title="抓包调试"></a>抓包调试</h2><p>随之而来的又是另外一个问题，在使用证书固定的同时，我们自己也将无法对我们的代码抓包来进行调试，本来想通过开一些特殊的口子来关闭CertificatePinner，进而来绕过我们自己的限制，但是这样会增加风险。</p>
+<p>那该怎么办呢？</p>
+<p>其实只要在原本证书之外，再多信任一个我们自己内部使用的Charles的证书就可以了。</p>
+<p>方法如下：</p>
+<p>（我们使用的Charles版本是v4.0）</p>
+<p>1、Charles菜单中选择Help &gt; SSLProxying &gt; View Generated SSL Certificates Keystore Password，将显示的密码记下来。这个是在每个Charles安装的时候自动生成的，和你本机的Charles Root Certificates相对应。</p>
+<p>2、Charles菜单中选择Help &gt; SSLProxying &gt; Export Charles Root Certificate and Private Key…，然后输入刚才的密码，将生成的p12文件保存好。</p>
+<p>3、Charles菜单中选择Help &gt; SSLProxying &gt; Save Charles Root Certificate…，将pem文件保存下来</p>
+<p>4、使用openssl，从刚才的pem文件中获取公钥</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -pubkey -noout -in charles-ssl-proxying-certificate.pem  | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64</div></pre></td></tr></table></figure>
+<p>5、依照上面证书固定的代码，增加一个PUBLIC_KEY</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CertificatePinner pinner = <span class="keyword">new</span> CertificatePinner.Builder()</div><div class="line">            .add(CA_DOMAIN, CA_PUBLIC_KEY)</div><div class="line">            .add(CA_DOMAIN, CA_PUBLIC_KEY_2)</div><div class="line">            .build();</div></pre></td></tr></table></figure>
+<p>6、将刚才的pem文件安装到手机上，一般在 系统设置 &gt; 安全 的菜单中，从SD卡安装刚才的pem文件，并且配置好抓包的代理。（这个和一般的Charles抓包配置一样）</p>
+<p>7、（在需要抓包的电脑上）Charles菜单中选择proxy &gt; SSL Proxy Settings…，选择Root Certificate，然后选择Choose，选择之前保存的p12文件，这个时候会让你输入之前的密码。</p>
+<p>8、（在需要抓包的电脑上）重启Charles</p>
+<p>这样就完成了所有的配置，之后只要保存好对应的p12文件（包含私钥公钥）、pem文件（包含公钥）和密码，就可以让需要调试的小伙伴来进行抓包了。</p>
+<h2 id="关于Android7-0"><a href="#关于Android7-0" class="headerlink" title="关于Android7.0+"></a>关于Android7.0+</h2><p>Android7.0及以上除了要完成上述的操作以外，还需要额外的在代码中进行网络安全性配置，这里就不多说了，官网上都有，很详细。可以看这里：<a href="https://developer.android.com/training/articles/security-config.html?hl=zh-cn#CustomTrust" target="_blank" rel="external">https://developer.android.com/training/articles/security-config.html?hl=zh-cn#CustomTrust</a></p>
+<p>如果进行了网络安全性配置，那么之前第6步中，pem后缀的那个CA证书，就不用手动安装到手机上了（因为apk中自带了）</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://developer.android.com/training/articles/security-config.html?hl=zh-cn#CustomTrust" target="_blank" rel="external">https://developer.android.com/training/articles/security-config.html?hl=zh-cn#CustomTrust</a><br><a href="https://www.cnblogs.com/eshizhan/archive/2012/10/07/2713557.html" target="_blank" rel="external">https://www.cnblogs.com/eshizhan/archive/2012/10/07/2713557.html</a><br><a href="http://www.cnblogs.com/guogangj/p/4118605.html" target="_blank" rel="external">http://www.cnblogs.com/guogangj/p/4118605.html</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2018/02/13/GML迷之问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1726,158 +1871,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://firzencode.coding.me/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="firzencode">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="firzencode.">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/" itemprop="url">
-                  RecyclerView和ViewPager在一起使用时的自动滚动的问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-18T09:46:29+08:00">
-                2017-07-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>参考：<a href="https://stackoverflow.com/questions/37782485/android-prevent-nested-recyclerview-from-automatically-repositioning" target="_blank" rel="external">https://stackoverflow.com/questions/37782485/android-prevent-nested-recyclerview-from-automatically-repositioning</a></p>
-<p>在ViewPager里面嵌套了RecyclerView，但是当我们滑动到这个Tab页的时候，这个分页自动上下滑动，来保证了recyclerView可以显示完全。</p>
-<p>然而我并不想要这个特性，如何关掉？</p>
-<p>根据面向stackoverflow编程的方法，在包含这个recyclerView的ParentView里面，添加了一行xml定义，来解决这个问题<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android:descendantFocusability="blocksDescendants"</div></pre></td></tr></table></figure></p>
-<p>以上</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1922,7 +1920,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
