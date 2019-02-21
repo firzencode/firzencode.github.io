@@ -57,7 +57,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.ahayoo.com"></form>
@@ -67,6 +67,67 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-DailyGML-cloud-string-save" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/18/DailyGML-cloud-string-save/" class="article-date">
+  <time datetime="2017-07-18T04:36:04.000Z" itemprop="datePublished">2017-07-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GMS2/">GMS2</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/18/DailyGML-cloud-string-save/">DailyGML(4)-cloud-string-save</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>cloud_string_save</p>
+<p>Syntax:<br><br>cloud_string_save(string, description);</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>The data string to be uploaded.</td>
+</tr>
+</tbody>
+</table>
+<p>description<br><br>A brief description of the data being stored.</p>
+<p>Returns:<br><br>Real</p>
+<p>Description<br><br>This function will commit a string to the chosen cloud service for storage. The function will return a unique id value that should then be used in the appropriate asynchronous event to identify the ds_map that is returned as a “call back” from the cloud service. The string should contain all the information that you need to save for your game as you can only store one single “data blob” to the cloud, and running this function again will overwrite any previously stored values (as will using the cloud_file_save function). The description should be a short string of information that describes the save, eg: “Level2, Stage2”.<br>For further information on the returned asynchronous data, please see the function cloud_synchronise.</p>
+<p>Example:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var t_str = &quot;&quot;;</div><div class="line">for (var i = 0; i &lt; 10; i++;)</div><div class="line">   &#123;</div><div class="line">   t_str += string(global.Highscore[i]) + &quot;|&quot;</div><div class="line">   &#125;</div><div class="line">save_check = cloud_string_save(t_str, &quot;Current Highscores&quot;);</div><div class="line">var file = file_text_open_write(&quot;Highscores.txt&quot;);</div><div class="line">file_text_write_string(file, t_str);</div><div class="line">file_text_close(file);</div></pre></td></tr></table></figure></p>
+<p>The above code creates a string from the values stored in the global array “Highscores” and then writes this string to the cloud service for storage, as well as writing it to a file for local storage.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.ahayoo.com/2017/07/18/DailyGML-cloud-string-save/" data-id="cjsea9nij000kamd5gaqqodos" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-RecyclerView和ViewPager在一起使用时的自动滚动的问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -103,7 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/" data-id="cjrkeh75w000k0od5ubhev1bs" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/" data-id="cjsea9nih000iamd591wbxsqs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/14/DailyGML-cloud-file-save/" data-id="cjrkeh75u000i0od5f33dbkzm" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/14/DailyGML-cloud-file-save/" data-id="cjsea9nio000oamd5sa1pnscb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +346,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/12/DailyGML-asset-get-type/" data-id="cjrkeh75s000f0od5e9lnzy17" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/12/DailyGML-asset-get-type/" data-id="cjsea9nig000famd5fk64fqzw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -346,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/07/DailyGML-asset-get-index/" data-id="cjrkeh75q000d0od5tylqelt8" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/07/DailyGML-asset-get-index/" data-id="cjsea9nif000damd58j2vhk7t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -387,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/03/GML颜色/" data-id="cjrkeh75o000a0od5bqtsgiw8" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/03/GML颜色/" data-id="cjsea9nid000aamd5mgnzmk6u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -434,7 +495,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/02/git问题/" data-id="cjrkeh75l00080od51piu1irf" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/02/git问题/" data-id="cjsea9ni90008amd5bqatwj24" class="article-share-link">Share</a>
       
       
     </footer>
@@ -491,7 +552,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/" data-id="cjrkeh75j00060od59vwdosaw" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/" data-id="cjsea9ni50005amd5rnvh6l8i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -533,7 +594,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/05/17/PathPattern的问题/" data-id="cjrkeh75800020od5klgy4h1r" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/05/17/PathPattern的问题/" data-id="cjsea9ni40004amd5661jqppo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -582,54 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/Java初始化静态Map常量/" data-id="cjrkeh75200000od56qvikzjq" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-AlertDialog的尺寸问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/28/AlertDialog的尺寸问题/" class="article-date">
-  <time datetime="2017-01-28T08:57:59.000Z" itemprop="datePublished">2017-01-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/28/AlertDialog的尺寸问题/">AlertDialog的尺寸问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如何设置一个AlertDialog的尺寸？</p>
-<p>很容易就可以查到，有这么一个做法:<br><a href="http://stackoverflow.com/a/6922903" target="_blank" rel="external">How to control the width and height of the default Alert Dialog in Android?</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(<span class="keyword">this</span>);</div><div class="line">builder.setView(layout);</div><div class="line">builder.setTitle(<span class="string">"Title"</span>);</div><div class="line">alertDialog = builder.create();</div><div class="line">alertDialog.show();</div><div class="line">alertDialog.getWindow().setLayout(<span class="number">600</span>, <span class="number">400</span>); <span class="comment">//Controlling width and height.</span></div></pre></td></tr></table></figure>
-<p>注意：setLayout是在show()之后执行的。</p>
-<p>然而，眉头一皱，发现事情并没有这么简单。<br>按照这种方法显示出来的dialog，测量一下宽高之后，发现dialog的宽高比我们设置的要小一点点，而不是精确的相等。</p>
-<p>进行了好长时间的排查，最后确定，是alertDialog本身最大的View里面带上了padding，这个是由默认的style带过来的。<br>当时没有找到在哪里设置这个padding，于是使用了一种折衷的方式来使得dialog和我们要求的size相等。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> AlertDialog alertDialog = builder.setView(R.layout.dialog).create();</div><div class="line">alertDialog.show();</div><div class="line"></div><div class="line">View decorView = alertDialog.getWindow().getDecorView();</div><div class="line"><span class="keyword">int</span> paddingTop = decorView.getPaddingTop();</div><div class="line"><span class="keyword">int</span> paddingBottom = decorView.getPaddingBottom();</div><div class="line"><span class="keyword">int</span> paddingLeft = decorView.getPaddingLeft();</div><div class="line"><span class="keyword">int</span> paddingRight = decorView.getPaddingRight();</div><div class="line"></div><div class="line"><span class="keyword">int</span> width = <span class="number">600</span> + paddingLeft + paddingRight;</div><div class="line"><span class="keyword">int</span> height = <span class="number">400</span> + paddingTop + paddingBottom;</div><div class="line">alertDialog.getWindow().setLayout(width, height);</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/AlertDialog的尺寸问题/" data-id="cjrkeh75d00040od5v49wk7q2" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/01/28/Java初始化静态Map常量/" data-id="cjsea9nhx0002amd5tk4nsudi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -650,7 +664,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categorieën</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GMS2/">GMS2</a></li></ul>
     </div>
@@ -665,9 +679,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
   </div>
 
@@ -675,9 +689,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/02/21/测试页面/">测试页面</a>
+          </li>
         
           <li>
             <a href="/2018/02/22/CertificatePinner与Charles抓包的问题/">证书固定、CertificatePinner与Charles抓包的问题</a>
@@ -693,10 +711,6 @@
         
           <li>
             <a href="/2017/11/27/初探RoomPersistenceLibrary/">Android架构组件——初探Room Persistence Library</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/31/通过ADB命令获取当前activity/">通过ADB命令获取当前activity</a>
           </li>
         
       </ul>
