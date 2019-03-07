@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>GMS2碰撞检查 | Ahayoo</title>
+  <title>Jenkins读取Properties文件时的编码问题 | Ahayoo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="浏览了一下GML Reference 中碰撞检查这个章节的内容，整个碰撞检测的方法分为四个部分  简单碰撞检查 高级碰撞检查 不包含蒙层（Mask）的碰撞检测 物理碰撞我们一个部分一个部分的来看相关的内容。  简单碰撞检查place系列place_empty(x, y);检查当前的inst，如果放到x,y的位置，是否会和其他的物体碰撞返回boolean place_free(x, y)检查当前的i">
+  <meta name="description" content="在编写Jenkinsfile的时候，如果使用readProperties直接读取一个含有中文的properties文件，那么在日志中输出的是乱码。找了一个比较简单的解决方案：1）首先使用readFile(file: &amp;quot;the/path&amp;quot;, encoding: &amp;quot;UTF-8&amp;quot;)来读取fileData，2）然后使用readProperties(text: fil">
+<meta name="keywords" content="Jenkins">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GMS2碰撞检查">
-<meta property="og:url" content="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/index.html">
+<meta property="og:title" content="Jenkins读取Properties文件时的编码问题">
+<meta property="og:url" content="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/index.html">
 <meta property="og:site_name" content="Ahayoo">
-<meta property="og:description" content="浏览了一下GML Reference 中碰撞检查这个章节的内容，整个碰撞检测的方法分为四个部分  简单碰撞检查 高级碰撞检查 不包含蒙层（Mask）的碰撞检测 物理碰撞我们一个部分一个部分的来看相关的内容。  简单碰撞检查place系列place_empty(x, y);检查当前的inst，如果放到x,y的位置，是否会和其他的物体碰撞返回boolean place_free(x, y)检查当前的i">
-<meta property="og:updated_time" content="2017-07-07T03:39:24.000Z">
+<meta property="og:description" content="在编写Jenkinsfile的时候，如果使用readProperties直接读取一个含有中文的properties文件，那么在日志中输出的是乱码。找了一个比较简单的解决方案：1）首先使用readFile(file: &amp;quot;the/path&amp;quot;, encoding: &amp;quot;UTF-8&amp;quot;)来读取fileData，2）然后使用readProperties(text: fil">
+<meta property="og:updated_time" content="2019-03-07T03:11:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GMS2碰撞检查">
-<meta name="twitter:description" content="浏览了一下GML Reference 中碰撞检查这个章节的内容，整个碰撞检测的方法分为四个部分  简单碰撞检查 高级碰撞检查 不包含蒙层（Mask）的碰撞检测 物理碰撞我们一个部分一个部分的来看相关的内容。  简单碰撞检查place系列place_empty(x, y);检查当前的inst，如果放到x,y的位置，是否会和其他的物体碰撞返回boolean place_free(x, y)检查当前的i">
+<meta name="twitter:title" content="Jenkins读取Properties文件时的编码问题">
+<meta name="twitter:description" content="在编写Jenkinsfile的时候，如果使用readProperties直接读取一个含有中文的properties文件，那么在日志中输出的是乱码。找了一个比较简单的解决方案：1）首先使用readFile(file: &amp;quot;the/path&amp;quot;, encoding: &amp;quot;UTF-8&amp;quot;)来读取fileData，2）然后使用readProperties(text: fil">
   
     <link rel="alternate" href="/atom.xml" title="Ahayoo" type="application/atom+xml">
   
@@ -67,16 +68,12 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-GMS2碰撞检查" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Jenkins读取Properties文件时的编码问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/05/25/GMS2碰撞检查/" class="article-date">
-  <time datetime="2017-05-25T12:11:46.000Z" itemprop="datePublished">2017-05-25</time>
+    <a href="/2019/03/07/Jenkins读取Properties文件时的编码问题/" class="article-date">
+  <time datetime="2019-03-07T03:06:11.000Z" itemprop="datePublished">2019-03-07</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/GMS2/">GMS2</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -85,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      GMS2碰撞检查
+      Jenkins读取Properties文件时的编码问题
     </h1>
   
 
@@ -93,49 +90,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>浏览了一下GML Reference 中碰撞检查这个章节的内容，整个碰撞检测的方法分为四个部分</p>
-<ul>
-<li>简单碰撞检查</li>
-<li>高级碰撞检查</li>
-<li>不包含蒙层（Mask）的碰撞检测</li>
-<li>物理碰撞<br>我们一个部分一个部分的来看相关的内容。</li>
-</ul>
-<h2 id="简单碰撞检查"><a href="#简单碰撞检查" class="headerlink" title="简单碰撞检查"></a>简单碰撞检查</h2><h3 id="place系列"><a href="#place系列" class="headerlink" title="place系列"></a>place系列</h3><p>place_empty(x, y);<br>检查当前的inst，如果放到x,y的位置，是否会和其他的物体碰撞<br>返回boolean</p>
-<p>place_free(x, y)<br>检查当前的inst，如果放到x,y的位置，是否会和其他标记为solid的物体碰撞<br>solid标记在object editor里面设置<br>会使得这个物体的碰撞会优先于代码执行（？）<br>返回boolean</p>
-<p>place_meeting(x, y, object)<br>检查当前的inst，在指定位置是否和某个inst或者某种object碰撞<br>object接受all或者other参数<br>返回boolean</p>
-<h3 id="position系列"><a href="#position系列" class="headerlink" title="position系列"></a>position系列</h3><p>position_empty(x, y)<br>检查xy位置是否有inst<br>返回boolean</p>
-<p>position_meeting(x, y，obj)<br>检查x,y位置是否有某个inst或者某种object的碰撞<br>object接受all或者other参数<br>返回boolean</p>
-<p>position_change(x, y, obj, perf)<br>检查x,y位置是否有物体，如果有物体，会在他们的位置上创建新的obj类型的物体，同时将会原来的销毁<br>如果perf为false，那么不执行相应的Destroy，CleanUp和Create（TODO，这个要测试一下）<br>没有返回值</p>
-<p>position_destroy(x, y)<br>检查x,y位置是否有物体，如果有的话，会被销毁<br>没有返回值</p>
-<h3 id="instance-系列"><a href="#instance-系列" class="headerlink" title="instance 系列"></a>instance 系列</h3><p>instance_place(x, y, obj)<br>检查当前inst放置到x,y位置，当前的inst是否和指定inst相撞或者某种obj相撞<br>会返回相撞的inst的id（1个）<br>obj参数接受all和other<br>这个和place_meeting几乎一样，只不过会返回被碰撞的id</p>
-<p>instance_position(x, y, obj)<br>检查x,y位置，当前inst是否和指定的inst或者某种obj相撞，返回inst的id<br>obj参数接受all和other<br>这个和上面一个不同，是检查position，而不是将inst放过去检查collision mask</p>
-<p>（未完）</p>
+        <p>在编写Jenkinsfile的时候，如果使用readProperties直接读取一个含有中文的properties文件，那么在日志中输出的是乱码。<br>找了一个比较简单的解决方案：<br>1）首先使用<code>readFile(file: &quot;the/path&quot;, encoding: &quot;UTF-8&quot;)</code>来读取fileData，<br>2）然后使用<code>readProperties(text: fileData)</code>的方式来读取properties文件，这样就可以正常显示了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/" data-id="cjsy21z9j0005dvd5lhibydvi" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjsy21zan0018dvd5ofzzs546" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2017/07/02/git问题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          git 遇到fatal:multiple stage entries for merged file处理办法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/05/17/PathPattern的问题/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/02/22/CertificatePinner与Charles抓包的问题/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">IntentFilter PathPattern的问题</div>
+      <div class="article-nav-title">证书固定、CertificatePinner与Charles抓包的问题</div>
     </a>
   
 </nav>
