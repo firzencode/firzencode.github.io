@@ -68,6 +68,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java初始化静态Map常量" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/28/Java初始化静态Map常量/" class="article-date">
+  <time datetime="2017-01-28T09:13:30.000Z" itemprop="datePublished">2017-01-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/28/Java初始化静态Map常量/">Java初始化静态Map常量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转载自<a href="http://dengminhui.iteye.com/blog/483530" target="_blank" rel="external">这里</a><br>这种做法还是挺实用的</p>
+<hr>
+<p>常用的声明方式（使用静态代码块）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Map map = <span class="keyword">new</span> HashMap();  </div><div class="line"><span class="keyword">static</span> &#123;  </div><div class="line">    map.put(<span class="string">"key1"</span>, <span class="string">"value1"</span>);  </div><div class="line">    map.put(<span class="string">"key2"</span>, <span class="string">"value2"</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一种简约的方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Map map = <span class="keyword">new</span> HashMap() &#123;&#123;    </div><div class="line">    put(<span class="string">"key1"</span>, <span class="string">"value1"</span>);    </div><div class="line">    put(<span class="string">"key2"</span>, <span class="string">"value2"</span>);    </div><div class="line">&#125;&#125;;</div></pre></td></tr></table></figure>
+<p>这种方式，相当于重载HashMap的一个匿名实现。向原有的HashMap中添加了一个匿名构造方法。</p>
+<p>另外附加一个List/Set变量的声明方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> List list = Arrays.asList(<span class="string">"element1"</span>, <span class="string">"element2"</span>);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.ahayoo.com/2017/01/28/Java初始化静态Map常量/" data-id="cjuusze1v0004tud5kopijlu6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-AlertDialog的尺寸问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/01/28/AlertDialog的尺寸问题/" class="article-date">
@@ -105,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/AlertDialog的尺寸问题/" data-id="cjsy21z9g0004dvd53myhy4mu" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/01/28/AlertDialog的尺寸问题/" data-id="cjuusze1i0000tud5g2i21zh4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -151,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/ViewStub与setTranslationX/" data-id="cjsy21z9b0002dvd5x8zp2g8p" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/01/28/ViewStub与setTranslationX/" data-id="cjuusze1p0002tud5cpl0xqqs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -203,7 +252,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
   </div>
 
@@ -214,6 +263,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/24/test/">test</a>
+          </li>
         
           <li>
             <a href="/2019/03/07/Jenkins读取Properties文件时的编码问题/">Jenkins读取Properties文件时的编码问题</a>
@@ -229,10 +282,6 @@
         
           <li>
             <a href="/2018/01/08/LiveData和ViewModel/">Android架构组件（二）——ViewModel和LiveData</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/初探RoomPersistenceLibrary/">Android架构组件——初探Room Persistence Library</a>
           </li>
         
       </ul>

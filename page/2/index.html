@@ -68,6 +68,107 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-DailyGML-cloud-synchronise" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/19/DailyGML-cloud-synchronise/" class="article-date">
+  <time datetime="2017-07-19T04:30:25.000Z" itemprop="datePublished">2017-07-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GMS2/">GMS2</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/19/DailyGML-cloud-synchronise/">DailyGML(5)-cloud-synchronise</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>cloud_synchronise</p>
+<p>Syntax:<br><br>cloud_synchronise();</p>
+<p>Returns:<br><br>Real</p>
+<p>Description<br></p>
+<p>This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service at game start up. The function returns a unique id value which would then be used in the Asynchronous Cloud Event to retrieve the relevant information from the ds_map that is created.</p>
+<p>This function will send off to the cloud for data, which will then trigger the appropriate asynchronous event. In this event, you can check the returned async_load ds_map for the following values:</p>
+<p>“status”: This holds the status code, where a negative value denotes an error, a description of which will be contained in the “errorString”. A value of 0 (or a positive value) indicates a success(see below for exact values), and the “resultString” will contain the returned data or a success message.</p>
+<p>“id”: The id which was returned from the called function. If you fire off a series of cloud_ requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</p>
+<p>“description”: The description of the last uploaded file.</p>
+<p>“resultString”: This holds a string which is the data blob returned from the cloud.</p>
+<p>“errorString”: returns an Error String for any error.</p>
+<p>The exact meaning of the returned “status” map entry is explained in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Status Value</th>
+<th>errorString / resultString</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>errorString = “Not logged in to <service>“</service></td>
+<td>You have not successfully logged in to the given Cloud Service</td>
+</tr>
+<tr>
+<td>0</td>
+<td>resultString = recovered data</td>
+<td>New game data downloaded from the cloud (following a cloud_synchronise call)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>resultString = “AlreadySynchronized”</td>
+<td>No new data since you last called cloud_synchronise</td>
+</tr>
+<tr>
+<td>2</td>
+<td>resultString = “ConflictDeferral”</td>
+<td>A conflict was encountered, but the gamer chose to ignore it</td>
+</tr>
+<tr>
+<td>3</td>
+<td>resultString = “GameUploadSuccess”</td>
+<td>data from cloud_string_save or cloud_file_save was successfully uploaded to the cloud</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>errorString = Description of error</td>
+<td>Any other negative number means a synchronisation failure</td>
+</tr>
+</tbody>
+</table>
+<p>Extended Example:<br>This function would be called in an event like the Game Start Event or in an object that is placed in the first room of your game, with the idea being that you check the current data blob from the cloud server to see if it is up to date or not.</p>
+<p>cloud_check = cloud_synchronise();</p>
+<p>You would then want to check the returned ds_map in the asynchronous Cloud Event to get the status and the returned string, if there is one, with something like the following code:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">if ds_map_find_value(async_load, &quot;id&quot;) == cloud_check</div><div class="line">   &#123;</div><div class="line">   if ds_map_find_value(async_load, &quot;status&quot;) &lt; 0</div><div class="line">      &#123;</div><div class="line">      show_message_async(&quot;Cloud Services not available. Please check connectivity.&quot;);</div><div class="line">      &#125;</div><div class="line">   else</div><div class="line">      &#123;</div><div class="line">      if ds_map_find_value(async_load, &quot;status&quot;) == 0</div><div class="line">         &#123;</div><div class="line">         var file = file_text_open_write(&quot;Save.txt&quot;);</div><div class="line">         file_text_write_string(file, ds_map_find_value(async_load, &quot;resultString&quot;));</div><div class="line">         file_text_close(file);</div><div class="line">         &#125;</div><div class="line">      &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>The above code checks to make sure that the correct asynchronous function call is being revised, then goes on to get the status of the returned cloud ds_map. if the status is a negative number, something has gone wrong and the user is informed, otherwise the code will continue and retrieve the synchronised data and write it to a text file for later use.</p>
+<hr>
+<p>Cloud系列的函数，在启动的一开始调用这个函数，然后拿到一个cloud_check的id，之后在Asynchronous Cloud Event中的map里的id字段，通过这个cloud_check来判断是不是我们的synchronise返回的结果。</p>
+<p>之后就根据上面的status value，来判断同步的结果。</p>
+<p>（大概之后会写个demo）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.ahayoo.com/2017/07/19/DailyGML-cloud-synchronise/" data-id="cjuusze2i000otud58hvxpznr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-DailyGML-cloud-string-save" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/18/DailyGML-cloud-string-save/" class="article-date">
@@ -119,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/18/DailyGML-cloud-string-save/" data-id="cjsy21z9v000hdvd5lvgvwiuo" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/18/DailyGML-cloud-string-save/" data-id="cjuusze27000etud5qr4ht6ni" class="article-share-link">Share</a>
       
       
     </footer>
@@ -164,7 +265,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/" data-id="cjsy21za2000odvd5zejwirmr" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/18/RecyclerView和ViewPager在一起使用时的自动滚动的问题/" data-id="cjuusze2e000mtud5hek6v34k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -229,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/14/DailyGML-cloud-file-save/" data-id="cjsy21z9x000jdvd5yd2780zh" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/14/DailyGML-cloud-file-save/" data-id="cjuusze24000atud5gpry0k23" class="article-share-link">Share</a>
       
       
     </footer>
@@ -346,7 +447,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/12/DailyGML-asset-get-type/" data-id="cjsy21z9t000fdvd5n9pj3tg6" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/12/DailyGML-asset-get-type/" data-id="cjuusze2m000ttud558pndkc1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/07/DailyGML-asset-get-index/" data-id="cjsy21z9o0008dvd56btjkr7p" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/07/DailyGML-asset-get-index/" data-id="cjuusze29000htud5ec5vnfh1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -448,7 +549,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/03/GML颜色/" data-id="cjsy21z9q000advd50ibiavpk" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/03/GML颜色/" data-id="cjuusze1y0006tud5vzi548h7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -495,7 +596,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/02/git问题/" data-id="cjsy21z9s000ddvd5bh0ile5d" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/02/git问题/" data-id="cjuusze200008tud55bbmf1cj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -552,7 +653,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/" data-id="cjsy21z9j0005dvd5lhibydvi" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/" data-id="cjuusze1x0005tud5z90cybtm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -594,56 +695,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/05/17/PathPattern的问题/" data-id="cjsy21z9l0006dvd5q1swrdok" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java初始化静态Map常量" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/28/Java初始化静态Map常量/" class="article-date">
-  <time datetime="2017-01-28T09:13:30.000Z" itemprop="datePublished">2017-01-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/28/Java初始化静态Map常量/">Java初始化静态Map常量</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载自<a href="http://dengminhui.iteye.com/blog/483530" target="_blank" rel="external">这里</a><br>这种做法还是挺实用的</p>
-<hr>
-<p>常用的声明方式（使用静态代码块）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Map map = <span class="keyword">new</span> HashMap();  </div><div class="line"><span class="keyword">static</span> &#123;  </div><div class="line">    map.put(<span class="string">"key1"</span>, <span class="string">"value1"</span>);  </div><div class="line">    map.put(<span class="string">"key2"</span>, <span class="string">"value2"</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>一种简约的方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Map map = <span class="keyword">new</span> HashMap() &#123;&#123;    </div><div class="line">    put(<span class="string">"key1"</span>, <span class="string">"value1"</span>);    </div><div class="line">    put(<span class="string">"key2"</span>, <span class="string">"value2"</span>);    </div><div class="line">&#125;&#125;;</div></pre></td></tr></table></figure>
-<p>这种方式，相当于重载HashMap的一个匿名实现。向原有的HashMap中添加了一个匿名构造方法。</p>
-<p>另外附加一个List/Set变量的声明方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> List list = Arrays.asList(<span class="string">"element1"</span>, <span class="string">"element2"</span>);</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/Java初始化静态Map常量/" data-id="cjsy21z960001dvd5bhokp5us" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/05/17/PathPattern的问题/" data-id="cjuusze26000ctud5t2w3dc2o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -695,7 +747,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
   </div>
 
@@ -706,6 +758,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/24/test/">test</a>
+          </li>
         
           <li>
             <a href="/2019/03/07/Jenkins读取Properties文件时的编码问题/">Jenkins读取Properties文件时的编码问题</a>
@@ -721,10 +777,6 @@
         
           <li>
             <a href="/2018/01/08/LiveData和ViewModel/">Android架构组件（二）——ViewModel和LiveData</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/初探RoomPersistenceLibrary/">Android架构组件——初探Room Persistence Library</a>
           </li>
         
       </ul>
