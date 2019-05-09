@@ -57,7 +57,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.ahayoo.com"></form>
@@ -93,13 +93,18 @@
         <p>在看image-picker的<a href="https://github.com/flutter/plugins/blob/master/packages/image_picker/example/lib/main.dart" target="_blank" rel="external">sample</a>的时候，看到了FutureBuilder这个类，于是简单研究了一下</p>
 <p>doc：<a href="https://docs.flutter.io/flutter/widgets/FutureBuilder-class.html" target="_blank" rel="external">click me</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">FutureBuilder&lt;String&gt;(</div><div class="line">  future: _calculation, // a previously-obtained Future&lt;String&gt; or null</div><div class="line">  builder: (BuildContext context, AsyncSnapshot&lt;String&gt; snapshot) &#123;</div><div class="line">    switch (snapshot.connectionState) &#123;</div><div class="line">      case ConnectionState.none:</div><div class="line">        return Text(&apos;Press button to start.&apos;);</div><div class="line">      case ConnectionState.active:</div><div class="line">      case ConnectionState.waiting:</div><div class="line">        return Text(&apos;Awaiting result...&apos;);</div><div class="line">      case ConnectionState.done:</div><div class="line">        if (snapshot.hasError)</div><div class="line">          return Text(&apos;Error: $&#123;snapshot.error&#125;&apos;);</div><div class="line">        return Text(&apos;Result: $&#123;snapshot.data&#125;&apos;);</div><div class="line">    &#125;</div><div class="line">    return null; // unreachable</div><div class="line">  &#125;,</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>简单来说，这个就是一个widget的builder，根据future的不同状态，来重绘widget</p>
+<p>简单来说，这个就是一个widget的builder，根据future的不同状态，来重绘widget。</p>
+<p>回到image_picker的源码，先看state的build部分：</p>
+<ul>
+<li>中央部分是图片预览（_previewImage）或者是视频预览的控件（_previewVideo），其中video控件还要附带上VideoPlayerController这个类</li>
+<li>根据平台判断是Android还是iOS，如果是iOS的话，直接显示预览控件，如果是Android的话，使用FutureBuilder，去等待一个retrieveLostData的Future。因为Android平台有Activity被回收的情况，需要使用ImagePicker.retrieveLostData()来复原丢失的数据。相关可以参考这个函数以及LostDataResponse这个类</li>
+</ul>
 <p>// TODO<br>分析FutureBuilder的原理<br>分析Future、AsyncSnapshot、ConnectionState之间的关系和原理</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/" data-id="cjvfy4n890014igd5rtusr0mx" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/" data-id="cjvfzvdhq0013ned5sonmesez" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -136,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjvfy4n8b0016igd5wdry5308" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjvfzvdi9001dned52wqyj9yp" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
@@ -206,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/02/22/CertificatePinner与Charles抓包的问题/" data-id="cjvfy4n8f001bigd5y9so4khp" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2018/02/22/CertificatePinner与Charles抓包的问题/" data-id="cjvfzvdi8001cned586rocie2" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -250,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/02/13/GML迷之问题/" data-id="cjvfy4n8d0018igd5a5beex1a" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2018/02/13/GML迷之问题/" data-id="cjvfzvdi5001aned53y5eiu0g" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -313,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/01/08/LiveData和ViewModel/" data-id="cjvfy4n880012igd5hls1fs9t" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2018/01/08/LiveData和ViewModel/" data-id="cjvfzvdho000zned5m2ijkgey" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -401,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/11/27/初探RoomPersistenceLibrary/" data-id="cjvfy4n860010igd5huhjd4sd" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/11/27/初探RoomPersistenceLibrary/" data-id="cjvfzvdhp0011ned5n7bsd1pr" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -448,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/31/通过ADB命令获取当前activity/" data-id="cjvfy4n83000wigd5izolbojv" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/08/31/通过ADB命令获取当前activity/" data-id="cjvfzvdhj000vned5uwz6y63r" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -501,7 +506,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/04/DailyGML-variable-func/" data-id="cjvfy4n85000yigd577xxts6s" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/08/04/DailyGML-variable-func/" data-id="cjvfzvdhl000xned5jenb6fzm" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -596,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/01/DailyGML-http-func/" data-id="cjvfy4n80000tigd54sr3b3fb" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/08/01/DailyGML-http-func/" data-id="cjvfzvdhd000lned5w7rqon9a" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -645,7 +650,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/28/DailyGML-get-xxx-async/" data-id="cjvfy4n7t000oigd581l8dncu" class="article-share-link">Share</a>
+      <a data-url="https://www.ahayoo.com/2017/07/28/DailyGML-get-xxx-async/" data-id="cjvfzvdhe000nned56jtshhie" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -666,7 +671,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Kategorier</h3>
+    <h3 class="widget-title">Categorieën</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GMS2/">GMS2</a></li></ul>
     </div>
@@ -676,7 +681,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Labels</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
     </div>
@@ -695,7 +700,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
@@ -705,7 +710,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         
