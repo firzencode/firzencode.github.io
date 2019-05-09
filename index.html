@@ -55,9 +55,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.ahayoo.com"></form>
@@ -68,10 +68,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Flutter-FutureBuilder" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/24/test/" class="article-date">
-  <time datetime="2019-04-24T05:43:28.000Z" itemprop="datePublished">2019-04-24</time>
+    <a href="/2019/05/09/Flutter-FutureBuilder/" class="article-date">
+  <time datetime="2019-05-09T00:38:53.000Z" itemprop="datePublished">2019-05-09</time>
 </a>
     
   </div>
@@ -82,7 +82,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/test/">test</a>
+      <a class="article-title" href="/2019/05/09/Flutter-FutureBuilder/">Flutter-FutureBuilder</a>
     </h1>
   
 
@@ -90,12 +90,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="&quot;shanbay.native.app://plan/news?redirectTo=javascript%3Aalert\(%22hi%22\">Click me</a>“)</p>
+        <p>在看image-picker的<a href="https://github.com/flutter/plugins/blob/master/packages/image_picker/example/lib/main.dart" target="_blank" rel="external">sample</a>的时候，看到了FutureBuilder这个类，于是简单研究了一下</p>
+<p>doc：<a href="https://docs.flutter.io/flutter/widgets/FutureBuilder-class.html" target="_blank" rel="external">click me</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">FutureBuilder&lt;String&gt;(</div><div class="line">  future: _calculation, // a previously-obtained Future&lt;String&gt; or null</div><div class="line">  builder: (BuildContext context, AsyncSnapshot&lt;String&gt; snapshot) &#123;</div><div class="line">    switch (snapshot.connectionState) &#123;</div><div class="line">      case ConnectionState.none:</div><div class="line">        return Text(&apos;Press button to start.&apos;);</div><div class="line">      case ConnectionState.active:</div><div class="line">      case ConnectionState.waiting:</div><div class="line">        return Text(&apos;Awaiting result...&apos;);</div><div class="line">      case ConnectionState.done:</div><div class="line">        if (snapshot.hasError)</div><div class="line">          return Text(&apos;Error: $&#123;snapshot.error&#125;&apos;);</div><div class="line">        return Text(&apos;Result: $&#123;snapshot.data&#125;&apos;);</div><div class="line">    &#125;</div><div class="line">    return null; // unreachable</div><div class="line">  &#125;,</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>简单来说，这个就是一个widget的builder，根据future的不同状态，来重绘widget</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2019/04/24/test/" data-id="cjuutb1h4001g3gd54ubx8m12" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/" data-id="cjvfxwqll001aukd5oha2mpfp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -132,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjuutb1gj00153gd5dsznrdc7" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjvfxwqlk0018ukd50plono5o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
@@ -202,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/02/22/CertificatePinner与Charles抓包的问题/" data-id="cjuutb1h1001e3gd50spg8sxp" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2018/02/22/CertificatePinner与Charles抓包的问题/" data-id="cjvfxwqlg0014ukd5vzoevucr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +249,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/02/13/GML迷之问题/" data-id="cjuutb1ge000z3gd5noezvwzv" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2018/02/13/GML迷之问题/" data-id="cjvfxwqli0016ukd5v90lg6jb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/01/08/LiveData和ViewModel/" data-id="cjuutb1gh00133gd59lvayr7e" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2018/01/08/LiveData和ViewModel/" data-id="cjvfxwqlc0010ukd5ou5i9eeh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -397,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/11/27/初探RoomPersistenceLibrary/" data-id="cjuutb1gf00113gd5tzq4c2t7" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/11/27/初探RoomPersistenceLibrary/" data-id="cjvfxwqle0012ukd5a3h9o9zh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -444,7 +447,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/31/通过ADB命令获取当前activity/" data-id="cjuutb1gc000x3gd53k4m1rm4" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/08/31/通过ADB命令获取当前activity/" data-id="cjvfxwql8000wukd5h22x3zm6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -497,7 +500,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/04/DailyGML-variable-func/" data-id="cjuutb1g4000q3gd5qyfpbhyj" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/08/04/DailyGML-variable-func/" data-id="cjvfxwql0000mukd5jb3rijjm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -592,7 +595,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/01/DailyGML-http-func/" data-id="cjuutb1g6000s3gd5sbaa3hb5" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/08/01/DailyGML-http-func/" data-id="cjvfxwqla000yukd58xuuzsu1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -641,7 +644,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/28/DailyGML-get-xxx-async/" data-id="cjuutb1g8000v3gd56ye65qj4" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/07/28/DailyGML-get-xxx-async/" data-id="cjvfxwql1000oukd5i5aif7bv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -662,7 +665,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Catégories</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GMS2/">GMS2</a></li></ul>
     </div>
@@ -672,7 +675,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
     </div>
@@ -682,7 +685,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a>
     </div>
@@ -693,7 +696,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
   </div>
 
@@ -701,12 +704,12 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2019/04/24/test/">test</a>
+            <a href="/2019/05/09/Flutter-FutureBuilder/">Flutter-FutureBuilder</a>
           </li>
         
           <li>
@@ -738,7 +741,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 firzencode<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

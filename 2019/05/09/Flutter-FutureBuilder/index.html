@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2019/3 | Ahayoo</title>
+  <title>Flutter-FutureBuilder | Ahayoo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Game / Coding / Design / Life">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ahayoo">
-<meta property="og:url" content="https://www.ahayoo.com/archives/2019/03/index.html">
+  <meta name="description" content="在看image-picker的sample的时候，看到了FutureBuilder这个类，于是简单研究了一下 doc：click me 1234567891011121314151617FutureBuilder&amp;lt;String&amp;gt;(  future: _calculation, // a previously-obtained Future&amp;lt;String&amp;gt; or null">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter-FutureBuilder">
+<meta property="og:url" content="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/index.html">
 <meta property="og:site_name" content="Ahayoo">
-<meta property="og:description" content="Game / Coding / Design / Life">
+<meta property="og:description" content="在看image-picker的sample的时候，看到了FutureBuilder这个类，于是简单研究了一下 doc：click me 1234567891011121314151617FutureBuilder&amp;lt;String&amp;gt;(  future: _calculation, // a previously-obtained Future&amp;lt;String&amp;gt; or null">
+<meta property="og:updated_time" content="2019-05-09T00:54:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ahayoo">
-<meta name="twitter:description" content="Game / Coding / Design / Life">
+<meta name="twitter:title" content="Flutter-FutureBuilder">
+<meta name="twitter:description" content="在看image-picker的sample的时候，看到了FutureBuilder这个类，于是简单研究了一下 doc：click me 1234567891011121314151617FutureBuilder&amp;lt;String&amp;gt;(  future: _calculation, // a previously-obtained Future&amp;lt;String&amp;gt; or null">
   
     <link rel="alternate" href="/atom.xml" title="Ahayoo" type="application/atom+xml">
   
@@ -66,39 +67,55 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/03/07/Jenkins读取Properties文件时的编码问题/" class="archive-article-date">
-  <time datetime="2019-03-07T03:06:11.000Z" itemprop="datePublished">Mar 7</time>
+        <section id="main"><article id="post-Flutter-FutureBuilder" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/09/Flutter-FutureBuilder/" class="article-date">
+  <time datetime="2019-05-09T00:38:53.000Z" itemprop="datePublished">2019-05-09</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/Jenkins读取Properties文件时的编码问题/">Jenkins读取Properties文件时的编码问题</a>
+    <h1 class="article-title" itemprop="name">
+      Flutter-FutureBuilder
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在看image-picker的<a href="https://github.com/flutter/plugins/blob/master/packages/image_picker/example/lib/main.dart" target="_blank" rel="external">sample</a>的时候，看到了FutureBuilder这个类，于是简单研究了一下</p>
+<p>doc：<a href="https://docs.flutter.io/flutter/widgets/FutureBuilder-class.html" target="_blank" rel="external">click me</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">FutureBuilder&lt;String&gt;(</div><div class="line">  future: _calculation, // a previously-obtained Future&lt;String&gt; or null</div><div class="line">  builder: (BuildContext context, AsyncSnapshot&lt;String&gt; snapshot) &#123;</div><div class="line">    switch (snapshot.connectionState) &#123;</div><div class="line">      case ConnectionState.none:</div><div class="line">        return Text(&apos;Press button to start.&apos;);</div><div class="line">      case ConnectionState.active:</div><div class="line">      case ConnectionState.waiting:</div><div class="line">        return Text(&apos;Awaiting result...&apos;);</div><div class="line">      case ConnectionState.done:</div><div class="line">        if (snapshot.hasError)</div><div class="line">          return Text(&apos;Error: $&#123;snapshot.error&#125;&apos;);</div><div class="line">        return Text(&apos;Result: $&#123;snapshot.data&#125;&apos;);</div><div class="line">    &#125;</div><div class="line">    return null; // unreachable</div><div class="line">  &#125;,</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>简单来说，这个就是一个widget的builder，根据future的不同状态，来重绘widget</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/" data-id="cjvfxwqll001aukd5oha2mpfp" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/07/Jenkins读取Properties文件时的编码问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Jenkins读取Properties文件时的编码问题</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         
