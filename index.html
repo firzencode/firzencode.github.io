@@ -55,9 +55,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.ahayoo.com"></form>
@@ -91,20 +91,24 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在看image-picker的<a href="https://github.com/flutter/plugins/blob/master/packages/image_picker/example/lib/main.dart" target="_blank" rel="external">sample</a>的时候，看到了FutureBuilder这个类，于是简单研究了一下</p>
-<p>doc：<a href="https://docs.flutter.io/flutter/widgets/FutureBuilder-class.html" target="_blank" rel="external">click me</a></p>
+<h2 id="Future-Builder"><a href="#Future-Builder" class="headerlink" title="Future Builder"></a>Future Builder</h2><p>doc：<a href="https://docs.flutter.io/flutter/widgets/FutureBuilder-class.html" target="_blank" rel="external">click me</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">FutureBuilder&lt;String&gt;(</div><div class="line">  future: _calculation, // a previously-obtained Future&lt;String&gt; or null</div><div class="line">  builder: (BuildContext context, AsyncSnapshot&lt;String&gt; snapshot) &#123;</div><div class="line">    switch (snapshot.connectionState) &#123;</div><div class="line">      case ConnectionState.none:</div><div class="line">        return Text(&apos;Press button to start.&apos;);</div><div class="line">      case ConnectionState.active:</div><div class="line">      case ConnectionState.waiting:</div><div class="line">        return Text(&apos;Awaiting result...&apos;);</div><div class="line">      case ConnectionState.done:</div><div class="line">        if (snapshot.hasError)</div><div class="line">          return Text(&apos;Error: $&#123;snapshot.error&#125;&apos;);</div><div class="line">        return Text(&apos;Result: $&#123;snapshot.data&#125;&apos;);</div><div class="line">    &#125;</div><div class="line">    return null; // unreachable</div><div class="line">  &#125;,</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>简单来说，这个就是一个widget的builder，根据future的不同状态，来重绘widget。</p>
-<p>回到image_picker的源码，先看state的build部分：</p>
+<p>简单来说，FutureBuilder本身是一个widget，根据future的不同状态，来重绘widget。</p>
+<p>看一下FutureBuilder的源码，也很简单，为了节省篇幅，删掉了源码中的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line">class FutureBuilder&lt;T&gt; extends StatefulWidget &#123;</div><div class="line">  const FutureBuilder(&#123;</div><div class="line">    Key key,</div><div class="line">    this.future,</div><div class="line">    this.initialData,</div><div class="line">    @required this.builder,</div><div class="line">  &#125;) : assert(builder != null),</div><div class="line">       super(key: key);</div><div class="line"></div><div class="line">  final Future&lt;T&gt; future;</div><div class="line">  final AsyncWidgetBuilder&lt;T&gt; builder;</div><div class="line">  final T initialData;</div><div class="line"></div><div class="line">  @override</div><div class="line">  State&lt;FutureBuilder&lt;T&gt;&gt; createState() =&gt; _FutureBuilderState&lt;T&gt;();</div><div class="line">&#125;</div><div class="line"></div><div class="line">class _FutureBuilderState&lt;T&gt; extends State&lt;FutureBuilder&lt;T&gt;&gt; &#123;</div><div class="line">  Object _activeCallbackIdentity;</div><div class="line">  AsyncSnapshot&lt;T&gt; _snapshot;</div><div class="line"></div><div class="line">  @override</div><div class="line">  void initState() &#123;</div><div class="line">    super.initState();</div><div class="line">    _snapshot = AsyncSnapshot&lt;T&gt;.withData(ConnectionState.none, widget.initialData);</div><div class="line">    _subscribe();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @override</div><div class="line">  void didUpdateWidget(FutureBuilder&lt;T&gt; oldWidget) &#123;</div><div class="line">    super.didUpdateWidget(oldWidget);</div><div class="line">    if (oldWidget.future != widget.future) &#123;</div><div class="line">      if (_activeCallbackIdentity != null) &#123;</div><div class="line">        _unsubscribe();</div><div class="line">        _snapshot = _snapshot.inState(ConnectionState.none);</div><div class="line">      &#125;</div><div class="line">      _subscribe();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @override</div><div class="line">  Widget build(BuildContext context) =&gt; widget.builder(context, _snapshot);</div><div class="line"></div><div class="line">  @override</div><div class="line">  void dispose() &#123;</div><div class="line">    _unsubscribe();</div><div class="line">    super.dispose();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  void _subscribe() &#123;</div><div class="line">    if (widget.future != null) &#123;</div><div class="line">      final Object callbackIdentity = Object();</div><div class="line">      _activeCallbackIdentity = callbackIdentity;</div><div class="line">      widget.future.then&lt;void&gt;((T data) &#123;</div><div class="line">        if (_activeCallbackIdentity == callbackIdentity) &#123;</div><div class="line">          setState(() &#123;</div><div class="line">            _snapshot = AsyncSnapshot&lt;T&gt;.withData(ConnectionState.done, data);</div><div class="line">          &#125;);</div><div class="line">        &#125;</div><div class="line">      &#125;, onError: (Object error) &#123;</div><div class="line">        if (_activeCallbackIdentity == callbackIdentity) &#123;</div><div class="line">          setState(() &#123;</div><div class="line">            _snapshot = AsyncSnapshot&lt;T&gt;.withError(ConnectionState.done, error);</div><div class="line">          &#125;);</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">      _snapshot = _snapshot.inState(ConnectionState.waiting);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  void _unsubscribe() &#123;</div><div class="line">    _activeCallbackIdentity = null;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建的时候可以传入对应请求数据的future，用来真正创建widget的builder，同时可以传入一个泛型的initialData。<br>真正执行build的时候，是委托传入的这个builder来执行控件的创建。这个builder是一个AsyncWidgetBuilder类型，通过处理futureBuilder提供的AsyncSnapshot，来获取必要的状态和数据。<br>在initState的时候，执行_subscribe，来启动对应的future，在future正常执行完或者出错之后，通过setState先将snapshot设置为指定的状态，然后传递给真正的builder函数来把控件创建出来<br>特别要说明的是callbackIdentity这个对象，执行subscribe的时候，会new一个空object出来，说白了就是给future设置了一个uuid。当发生了future变化的时候，一是用来清理掉原来的future，二是原来future返回回来的时候，因为本身future变了，所以跳过原来的setState，以免错误更新界面</p>
+<h2 id="ImagePicker-的-sample"><a href="#ImagePicker-的-sample" class="headerlink" title="ImagePicker 的 sample"></a>ImagePicker 的 sample</h2><p>回到image_picker对应<a href="(https://github.com/flutter/plugins/blob/master/packages/image_picker/example/lib/main.dart">sample</a>)的代码，先看state的build部分：</p>
 <ul>
 <li>中央部分是图片预览（_previewImage）或者是视频预览的控件（_previewVideo），其中video控件还要附带上VideoPlayerController这个类</li>
 <li>根据平台判断是Android还是iOS，如果是iOS的话，直接显示预览控件，如果是Android的话，使用FutureBuilder，去等待一个retrieveLostData的Future。因为Android平台有Activity被回收的情况，需要使用ImagePicker.retrieveLostData()来复原丢失的数据。相关可以参考这个函数以及LostDataResponse这个类</li>
+<li>底部四个FloatingActionButton，调用了_onImageButtonPressed，最终调用ImagePicker的pickVideo或者pickImage，通过source来区分是ImageSource.gallery或者ImageSource.camera。获取到对应的file之后，再继续进行video或者image的显示。</li>
 </ul>
-<p>// TODO<br>分析FutureBuilder的原理<br>分析Future、AsyncSnapshot、ConnectionState之间的关系和原理</p>
+<p>// TODO image_picker的源码分析</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/" data-id="cjvfzvdhq0013ned5sonmesez" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2019/05/09/Flutter-FutureBuilder/" data-id="cjvhe4j6j001bbgd58fe0hbtz" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -141,7 +145,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjvfzvdi9001dned52wqyj9yp" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2019/03/07/Jenkins读取Properties文件时的编码问题/" data-id="cjvhe4j6d0014bgd5x0omdg0a" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
@@ -211,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/02/22/CertificatePinner与Charles抓包的问题/" data-id="cjvfzvdi8001cned586rocie2" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2018/02/22/CertificatePinner与Charles抓包的问题/" data-id="cjvhe4j6i0019bgd5fbqpldld" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -255,7 +259,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/02/13/GML迷之问题/" data-id="cjvfzvdi5001aned53y5eiu0g" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2018/02/13/GML迷之问题/" data-id="cjvhe4j6h0016bgd5g6m58z6a" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -318,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2018/01/08/LiveData和ViewModel/" data-id="cjvfzvdho000zned5m2ijkgey" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2018/01/08/LiveData和ViewModel/" data-id="cjvhe4j6a0010bgd5f4w6ncif" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -406,7 +410,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/11/27/初探RoomPersistenceLibrary/" data-id="cjvfzvdhp0011ned5n7bsd1pr" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/11/27/初探RoomPersistenceLibrary/" data-id="cjvhe4j6b0012bgd5n3ws5siw" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -453,7 +457,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/31/通过ADB命令获取当前activity/" data-id="cjvfzvdhj000vned5uwz6y63r" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/08/31/通过ADB命令获取当前activity/" data-id="cjvhe4j67000wbgd5hras30jc" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -506,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/04/DailyGML-variable-func/" data-id="cjvfzvdhl000xned5jenb6fzm" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/08/04/DailyGML-variable-func/" data-id="cjvhe4j69000ybgd5nrgcib69" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -601,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/08/01/DailyGML-http-func/" data-id="cjvfzvdhd000lned5w7rqon9a" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/08/01/DailyGML-http-func/" data-id="cjvhe4j63000rbgd5o8pa9o65" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -650,7 +654,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/07/28/DailyGML-get-xxx-async/" data-id="cjvfzvdhe000nned56jtshhie" class="article-share-link">Delen</a>
+      <a data-url="https://www.ahayoo.com/2017/07/28/DailyGML-get-xxx-async/" data-id="cjvhe4j5x000mbgd5cxa9ovf3" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -671,7 +675,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categorieën</h3>
+    <h3 class="widget-title">Catégories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GMS2/">GMS2</a></li></ul>
     </div>
@@ -681,7 +685,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Labels</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
     </div>
@@ -691,7 +695,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
       <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a>
     </div>
@@ -700,7 +704,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
@@ -710,7 +714,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
@@ -747,7 +751,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 firzencode<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
