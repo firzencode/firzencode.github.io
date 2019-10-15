@@ -55,9 +55,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.ahayoo.com"></form>
@@ -67,6 +67,105 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-GMS2碰撞检查" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/25/GMS2碰撞检查/" class="article-date">
+  <time datetime="2017-05-25T12:11:46.000Z" itemprop="datePublished">2017-05-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GMS2/">GMS2</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/25/GMS2碰撞检查/">GMS2碰撞检查</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>浏览了一下GML Reference 中碰撞检查这个章节的内容，整个碰撞检测的方法分为四个部分</p>
+<ul>
+<li>简单碰撞检查</li>
+<li>高级碰撞检查</li>
+<li>不包含蒙层（Mask）的碰撞检测</li>
+<li>物理碰撞<br>我们一个部分一个部分的来看相关的内容。</li>
+</ul>
+<h2 id="简单碰撞检查"><a href="#简单碰撞检查" class="headerlink" title="简单碰撞检查"></a>简单碰撞检查</h2><h3 id="place系列"><a href="#place系列" class="headerlink" title="place系列"></a>place系列</h3><p>place_empty(x, y);<br>检查当前的inst，如果放到x,y的位置，是否会和其他的物体碰撞<br>返回boolean</p>
+<p>place_free(x, y)<br>检查当前的inst，如果放到x,y的位置，是否会和其他标记为solid的物体碰撞<br>solid标记在object editor里面设置<br>会使得这个物体的碰撞会优先于代码执行（？）<br>返回boolean</p>
+<p>place_meeting(x, y, object)<br>检查当前的inst，在指定位置是否和某个inst或者某种object碰撞<br>object接受all或者other参数<br>返回boolean</p>
+<h3 id="position系列"><a href="#position系列" class="headerlink" title="position系列"></a>position系列</h3><p>position_empty(x, y)<br>检查xy位置是否有inst<br>返回boolean</p>
+<p>position_meeting(x, y，obj)<br>检查x,y位置是否有某个inst或者某种object的碰撞<br>object接受all或者other参数<br>返回boolean</p>
+<p>position_change(x, y, obj, perf)<br>检查x,y位置是否有物体，如果有物体，会在他们的位置上创建新的obj类型的物体，同时将会原来的销毁<br>如果perf为false，那么不执行相应的Destroy，CleanUp和Create（TODO，这个要测试一下）<br>没有返回值</p>
+<p>position_destroy(x, y)<br>检查x,y位置是否有物体，如果有的话，会被销毁<br>没有返回值</p>
+<h3 id="instance-系列"><a href="#instance-系列" class="headerlink" title="instance 系列"></a>instance 系列</h3><p>instance_place(x, y, obj)<br>检查当前inst放置到x,y位置，当前的inst是否和指定inst相撞或者某种obj相撞<br>会返回相撞的inst的id（1个）<br>obj参数接受all和other<br>这个和place_meeting几乎一样，只不过会返回被碰撞的id</p>
+<p>instance_position(x, y, obj)<br>检查x,y位置，当前inst是否和指定的inst或者某种obj相撞，返回inst的id<br>obj参数接受all和other<br>这个和上面一个不同，是检查position，而不是将inst放过去检查collision mask</p>
+<p>（未完）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.ahayoo.com/2017/05/25/GMS2碰撞检查/" data-id="ck1iui8fn00069gd5o3wk9xh2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-PathPattern的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/17/PathPattern的问题/" class="article-date">
+  <time datetime="2017-05-17T12:09:11.000Z" itemprop="datePublished">2017-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/17/PathPattern的问题/">IntentFilter PathPattern的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>实际上这个PathPattern是所谓的PATTERN_SIMPLE_GLOB<br>只接受*和.这两种正则表达符号<br>所以想用\w或者断言什么的就没戏了<br>只能靠URL本身的模式来区分了。<br>相关链接：<br><a href="https://developer.android.com/reference/android/os/PatternMatcher.html#PATTERN_SIMPLE_GLOB" target="_blank" rel="external">https://developer.android.com/reference/android/os/PatternMatcher.html#PATTERN_SIMPLE_GLOB</a><br><a href="http://www.jianshu.com/p/862885bd8ea2" target="_blank" rel="external">http://www.jianshu.com/p/862885bd8ea2</a><br><a href="https://developer.android.com/training/app-links/index.html" target="_blank" rel="external">https://developer.android.com/training/app-links/index.html</a></p>
+<p>以上。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.ahayoo.com/2017/05/17/PathPattern的问题/" data-id="ck1iui8fm00059gd5infeh4js" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Java初始化静态Map常量" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -107,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/Java初始化静态Map常量/" data-id="cjvhe4j590002bgd55gg288wm" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/01/28/Java初始化静态Map常量/" data-id="ck1iui8f700009gd5gs23qe11" class="article-share-link">Share</a>
       
       
     </footer>
@@ -154,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/AlertDialog的尺寸问题/" data-id="cjvhe4j530000bgd58rcxa2w0" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/01/28/AlertDialog的尺寸问题/" data-id="ck1iui8fe00029gd5aribv2f0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -200,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.ahayoo.com/2017/01/28/ViewStub与setTranslationX/" data-id="cjvhe4j5d0004bgd5pufmrmi4" class="article-share-link">Partager</a>
+      <a data-url="https://www.ahayoo.com/2017/01/28/ViewStub与setTranslationX/" data-id="ck1iui8fk00049gd5greo0pcz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -221,7 +320,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Catégories</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GMS2/">GMS2</a></li></ul>
     </div>
@@ -231,7 +330,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
     </div>
@@ -241,7 +340,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a>
     </div>
@@ -252,7 +351,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
     </div>
   </div>
 
@@ -260,9 +359,17 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/08/05/测试CloudStudio/">测试CloudStudio</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/30/ahayoo-policy/">ahayoo-policy</a>
+          </li>
         
           <li>
             <a href="/2019/05/09/Flutter-FutureBuilder/">Flutter-FutureBuilder</a>
@@ -274,14 +381,6 @@
         
           <li>
             <a href="/2018/02/22/CertificatePinner与Charles抓包的问题/">证书固定、CertificatePinner与Charles抓包的问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/13/GML迷之问题/">GML迷之问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/08/LiveData和ViewModel/">Android架构组件（二）——ViewModel和LiveData</a>
           </li>
         
       </ul>
@@ -297,7 +396,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 firzencode<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
